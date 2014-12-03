@@ -17,7 +17,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
             foreach (var xProperty in xSubClass.Elements(xNamespace + "property"))
             {
-                Properties.Add(new XmlTablePropertyMapping(Type, xNamespace, xProperty));
+                Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
             }
 
             XAttribute xDiscriminatorValue;

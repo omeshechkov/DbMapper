@@ -1,7 +1,0 @@
-﻿<table-mapping xmlns="urn:dbm-table-mapping">
-  <table schema="test_dbm" name="shapes" class="DbMapper.Impl.Mappings.Xml.Test.TableMapping.Model.Shape, DbMapper.Impl.Mappings.Xml.Test" discriminator-value="123">
-    <discriminator column="type" type="long" />
-    
-    <property name="Id" column="id" />
-  </table>
-</table-mapping>

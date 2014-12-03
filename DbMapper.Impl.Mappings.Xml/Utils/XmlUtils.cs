@@ -101,7 +101,7 @@ namespace DbMapper.Impl.Mappings.Xml.Utils
 
         public static XElement SubElement(this XElement xElement)
         {
-            return xElement.Elements().First();
+            return xElement.Elements().FirstOrDefault();
         }
     }
 }

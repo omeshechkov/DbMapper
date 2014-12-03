@@ -1,22 +1,27 @@
 ﻿using System.Xml.Linq;
 using DbMapper.Generators;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
+using DbMapper.Impl.Mappings.Xml.Mappings;
+using DbMapper.Impl.Mappings.Xml.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Factories
 {
     internal static class GeneratorFactory
     {
-        public static IGenerator GetGenerator(XNamespace xNamespace, XElement xGeneratorElement)
+        public static IGenerator GetGenerator(XElement xGeneratorElement)
         {
             var generatorName = xGeneratorElement.Name;
 
-            if (generatorName == xNamespace + "sequence")
+            if (generatorName == XmlTableMapping.XNamespace + "sequence")
             {
-                var sequenceName = xGeneratorElement.Attribute("name").Value;
-                return new SequenceGenerator(sequenceName);
+                XAttribute xName;
+                if (!xGeneratorElement.TryGetAttribute("name", out xName))
+                    throw new DocumentParseException("Cannot find name at sequence generator");
+
+                return new SequenceGenerator(xName.Value);
             }
 
-            if (generatorName == xNamespace + "db-assigned")
+            if (generatorName == XmlTableMapping.XNamespace + "db-assigned")
             {
                 return DbAssignedGenerator.Instance;
             }

@@ -10,10 +10,11 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
     {
         public XmlDiscriminatorColumn(XElement xDiscriminator)
         {
-            var typeString = xDiscriminator.Attribute("type").Value;
+            XAttribute xType;
+            if (!xDiscriminator.TryGetAttribute("type", out xType))
+                throw new DocumentParseException("Cannot find type at discriminator");
 
-            if (string.IsNullOrEmpty(typeString))
-                throw new DocumentParseException("Discriminator type is empty");
+            var typeString = xType.Value;
 
             try
             {
@@ -21,10 +22,14 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
             catch (Exception ex)
             {
-                throw new DocumentParseException("Wrong discriminator column type", ex);
+                throw new DocumentParseException(string.Format("Cannot recognize discriminator type '{0}'", typeString), ex);
             }
 
-            Column = xDiscriminator.Attribute("column").Value;
+            XAttribute xColumn;
+            if (!xDiscriminator.TryGetAttribute("column", out xColumn))
+                throw new DocumentParseException("Cannot find column at discriminator");
+
+            Column = xColumn.Value;
         }
 
         public Type Type { get; private set; }

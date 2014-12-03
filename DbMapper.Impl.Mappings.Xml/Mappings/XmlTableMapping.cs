@@ -10,11 +10,16 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlTableMapping : ITableMapping
     {
-        private static readonly XNamespace XNamespace = "urn:dbm-table-mapping";
+        internal static readonly XNamespace XNamespace = "urn:dbm-table-mapping";
 
-        public XmlTableMapping(XContainer xMapping)
+        public XmlTableMapping(XElement xMapping)
         {
-            var xTable = xMapping.Element(XNamespace + "table");
+            if (xMapping == null)
+                throw new DocumentParseException("Cannot build table mapping", new ArgumentNullException("xMapping"));
+
+            XElement xTable;
+            if (!xMapping.TryGetElement(XNamespace + "table", out xTable))
+                throw new DocumentParseException("Cannot find table at table mapping");
 
             XAttribute xSchema;
             if (xTable.TryGetAttribute("schema", out xSchema))
@@ -22,14 +27,29 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xTable.Attribute("name").Value;
+            XAttribute xName;
+            if (!xTable.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at table mapping");
 
-            Type = xTable.Attribute("class").GetValueAsType();
+            Name = xName.Value;
+
+            XAttribute xClass;
+            if (!xTable.TryGetAttribute("class", out xClass))
+                throw new DocumentParseException("Cannot find class at table mapping");
+
+            try
+            {
+                Type = xClass.GetValueAsType();
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at table mapping", xClass.Value), ex);
+            }
 
             Properties = new List<IPropertyMapping>();
             foreach (var xProperty in xTable.Elements(XNamespace + "property"))
             {
-                Properties.Add(new XmlTablePropertyMapping(Type, XNamespace, xProperty));
+                Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
             }
 
             XElement xDiscriminator;
@@ -56,14 +76,14 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 }
                 catch (Exception ex)
                 {
-                    throw new DocumentParseException(string.Format("Cannot parse table discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type), ex);
+                    throw new DocumentParseException(string.Format("Cannot parse table discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type.AssemblyQualifiedName), ex);
                 }
             }
 
             XElement xVersionProperty;
             if (xTable.TryGetElement(XNamespace + "version", out xVersionProperty))
             {
-                VersionProperty = new XmlVersionProperty(this, xVersionProperty);
+                VersionProperty = new XmlVersionProperty(Type, xVersionProperty);
             }
 
             XElement xPrimaryKey;
@@ -76,11 +96,15 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
             foreach (var xProperty in xPrimaryKey.Elements(XNamespace + "property"))
             {
-                var name = xProperty.Attribute("name").Value;
+                XAttribute xPrimaryKeyPropertyName;
+                if (!xProperty.TryGetAttribute("name", out xPrimaryKeyPropertyName))
+                    throw new DocumentParseException("Cannot find name at table primary key mapping");
+
+                var name = xPrimaryKeyPropertyName.Value;
 
                 IPropertyMapping propertyMapping;
                 if (!properties.TryGetValue(name, out propertyMapping))
-                    throw new DocumentParseException("Cannot find primary key property '{0}'", name);
+                    throw new DocumentParseException("Cannot find primary key property '{0}' at table primary key mapping", name);
 
                 PrimaryKeyProperties.Add(propertyMapping);
             }

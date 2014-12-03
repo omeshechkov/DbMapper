@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
@@ -10,16 +11,24 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlVersionProperty : IVersionProperty
     {
-        public XmlVersionProperty(IMapping objectMapping, XElement xVersion)
+        public XmlVersionProperty(Type classType, XElement xVersion)
         {
-            var name = xVersion.Attribute("name").Value;
+            XAttribute xColumn;
+            if (!xVersion.TryGetAttribute("column", out xColumn))
+                throw new DocumentParseException("Cannot find column at version property mapping");
 
-            Member = objectMapping.Type.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
+            Name = xColumn.Value;
+
+            XAttribute xName;
+            if (!xVersion.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at version property mapping");
+
+            var name = xName.Value;
+
+            Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", Name);
-
-            Name = xVersion.Attribute("column").Value;
+                throw new DocumentParseException("Canot find member '{0}' of type '{1}'", name, classType.AssemblyQualifiedName);
 
             XAttribute xConverter;
             if (xVersion.TryGetAttribute("converter", out xConverter))

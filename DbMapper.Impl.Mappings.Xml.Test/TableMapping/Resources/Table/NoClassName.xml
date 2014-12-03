@@ -1,5 +1,0 @@
-﻿<table-mapping xmlns="urn:dbm-table-mapping">
-  <table schema="test_dbm" name="shapes">
-    <property name="Id" column="id" />
-  </table>
-</table-mapping>

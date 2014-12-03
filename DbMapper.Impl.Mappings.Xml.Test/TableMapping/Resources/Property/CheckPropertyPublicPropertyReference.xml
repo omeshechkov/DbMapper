@@ -1,5 +1,0 @@
-﻿<table-mapping xmlns="urn:dbm-table-mapping">
-  <table schema="test_dbm" name="shapes" class="DbMapper.Impl.Mappings.Xml.Test.TableMapping.Model.PropertyPropertyReference, DbMapper.Impl.Mappings.Xml.Test">
-    <property name="PublicProperty" column="id" />
-  </table>
-</table-mapping>

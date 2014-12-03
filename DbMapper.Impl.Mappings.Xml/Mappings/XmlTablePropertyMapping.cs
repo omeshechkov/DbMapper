@@ -11,22 +11,33 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlTablePropertyMapping : ITablePropertyMapping
     {
-        public XmlTablePropertyMapping(Type classType, XNamespace xNamespace, XElement xTableProperty)
+        public XmlTablePropertyMapping(Type classType, XElement xTableProperty)
         {
-            Name = xTableProperty.Attribute("column").Value;
-            
-            var name = xTableProperty.Attribute("name").Value;
+            XAttribute xColumn;
+            if (!xTableProperty.TryGetAttribute("column", out xColumn))
+                throw new DocumentParseException("Cannot find column at table property mapping");
+
+            Name = xColumn.Value;
+
+            XAttribute xName;
+            if (!xTableProperty.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at table property mapping");
+
+            var name = xName.Value;
 
             Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", name);
+                throw new DocumentParseException("Canot find member '{0}' of type '{1}'", name, classType.AssemblyQualifiedName);
 
             XElement xGenerator;
-            if (xTableProperty.TryGetElement(xNamespace + "generator", out xGenerator))
+            if (xTableProperty.TryGetElement(XmlTableMapping.XNamespace + "generator", out xGenerator))
             {
                 var xGeneratorElement = xGenerator.SubElement();
-                Generator = GeneratorFactory.GetGenerator(xNamespace, xGeneratorElement);
+                if (xGeneratorElement == null)
+                    throw new DocumentParseException("No generator type at table property mapping");
+
+                Generator = GeneratorFactory.GetGenerator(xGeneratorElement);
             }
 
             XAttribute xInsert;

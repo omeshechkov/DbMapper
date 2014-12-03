@@ -26,7 +26,16 @@ namespace DbMapper.Impl.Mappings.Xml.Factories
 
             try
             {
-                var converterType = Type.GetType(converterTypeString, true);
+                Type converterType;
+
+                try
+                {
+                    converterType = Type.GetType(converterTypeString, true);
+                }
+                catch (Exception ex)
+                {
+                    throw new DocumentParseException(string.Format("Cannot parse converter type, unrecognized class '{0}'", converterTypeString), ex);
+                }
 
                 if (Cache.TryGetValue(converterType, out converter))
                     return converter;

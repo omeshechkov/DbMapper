@@ -2,9 +2,20 @@
 {
     public class Shape
     {
-        public long Id { get; set; }
+        private long _id;
+        public long _version;
 
-        public long Version { get; set; }
+        public long Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        private long Version
+        {
+            get { return _version; }
+            set { _version = value; }
+        }
     }
 
     public class TwoDimensionalShape : Shape

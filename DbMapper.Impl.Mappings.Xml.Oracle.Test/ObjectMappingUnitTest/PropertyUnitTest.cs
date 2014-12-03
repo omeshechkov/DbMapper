@@ -108,5 +108,13 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
             var ex = Assert.Throws<DocumentParseException>(() => new XmlObjectPropertyMapping(typeof(Shape), xml));
             Assert.AreEqual(string.Format("Illegal converter class '{0}', class must be inherited from '{1}'", pseudoConverterType, iConverterType), ex.Message);
         }
+
+        [Test]
+        public void CheckPropertyWrongConverter()
+        {
+            var xml = XElement.Parse("<property name='X' attribute='x' converter='WrongConverter' />");
+            var ex = Assert.Throws<DocumentParseException>(() => new XmlObjectPropertyMapping(typeof(Shape), xml));
+            Assert.AreEqual("Cannot parse converter type, unrecognized class 'WrongConverter'", ex.Message);
+        }
     }
 }
