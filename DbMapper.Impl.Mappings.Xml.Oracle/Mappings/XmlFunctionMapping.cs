@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
@@ -15,7 +14,12 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 
         public XmlFunctionMapping(XElement xMapping)
         {
-            var xFunction = xMapping.Element(XNamespace + "function");
+            if (xMapping == null)
+                throw new DocumentParseException("Cannot build function mapping", new ArgumentNullException("xMapping"));
+
+            XElement xFunction;
+            if (!xMapping.TryGetElement(XNamespace + "function", out xFunction))
+                throw new DocumentParseException("Cannot find function at function mapping");
 
             XAttribute xSchema;
             if (xFunction.TryGetAttribute("schema", out xSchema))
@@ -23,34 +27,27 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xFunction.Attribute("name").Value;
+            XAttribute xName;
+            if (!xFunction.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at function mapping");
 
-            string delegateFullPath;
+            Name = xName.Value;
 
-            XAttribute xClass;
-            if (xFunction.TryGetAttribute("class", out xClass)) 
+            XAttribute xDelegate;
+            if (!xFunction.TryGetAttribute("delegate", out xDelegate))
+                throw new DocumentParseException("Cannot find delegate at function mapping");
+
+            try
             {
-                var @class = xClass.GetAsType();
-                var delegateName = xFunction.Attribute("delegate").Value;
-
-                delegateFullPath = string.Format("{0}.{1}", @class, delegateName);
-
-                var member = @class.GetMember(delegateName, MemberTypes.Field | MemberTypes.Property, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
-
-                if (member == null)
-                    throw new DocumentParseException("Cannot find static member '{0}' of '{1}' class", delegateName, @class.FullName);
-
-                Type = TypeUtils.GetMemberType(member);
+                Type = xDelegate.GetValueAsType();
             }
-            else
+            catch (Exception ex)
             {
-                Type = xFunction.Attribute("delegate").GetAsType();
-
-                delegateFullPath = Type.FullName;
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at function mapping", xDelegate.Value), ex);
             }
 
             if (!typeof(Delegate).IsAssignableFrom(Type))
-                throw new DocumentParseException("'{0}' should be a delegate", delegateFullPath);
+                throw new DocumentParseException("'{0}' should be a delegate", Type.FullName);
 
             Delegate = Type.GetMethod("Invoke");
 
@@ -61,10 +58,10 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
             }
 
             XElement xReturnValue;
-            if (xMapping.TryGetElement("return-value", out xReturnValue))
-            {
-                Return = new XmlFunctionReturnMapping(xReturnValue);
-            }
+            if (!xFunction.TryGetElement(XNamespace + "return-value", out xReturnValue))
+                throw new DocumentParseException("Cannot find return-value at function mapping");
+
+            ReturnValue = new XmlFunctionReturnValueMapping(xReturnValue);
         }
 
         public string Name { get; private set; }
@@ -77,6 +74,6 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 
         public MethodInfo Delegate { get; private set; }
 
-        public IFunctionReturnMapping Return { get; set; }
+        public IFunctionReturnValueMapping ReturnValue { get; set; }
     }
 }

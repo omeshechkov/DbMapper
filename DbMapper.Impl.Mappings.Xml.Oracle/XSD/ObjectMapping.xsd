@@ -15,7 +15,7 @@
 
   <xs:complexType name="object-type">
     <xs:sequence>
-      <xs:element name="property" type="property-type"  minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="property" type="property-type"  minOccurs="1" maxOccurs="unbounded" />
     </xs:sequence>
 
     <xs:attribute name="schema" type="xs:string" use="optional" />

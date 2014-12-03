@@ -6,9 +6,9 @@ using DbMapper.Oracle.Mappings;
 
 namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 {
-    sealed class XmlFunctionReturnMapping : IFunctionReturnMapping
+    sealed class XmlFunctionReturnValueMapping : IFunctionReturnValueMapping
     {
-        public XmlFunctionReturnMapping(XElement xFunctionReturn)
+        public XmlFunctionReturnValueMapping(XElement xFunctionReturn)
         {
             XAttribute xConverter;
             if (xFunctionReturn.TryGetAttribute("converter", out xConverter))
@@ -19,13 +19,13 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
             XAttribute xDbType;
             if (xFunctionReturn.TryGetAttribute("db-type", out xDbType))
             {
-                DbType = xDbType.GetAsEnum<DbType>();
+                DbType = xDbType.GetValueAsEnum<DbType>();
             }
 
             XAttribute xLength;
             if (xFunctionReturn.TryGetAttribute("length", out xLength))
             {
-                Length = xLength.GetAsInt();
+                Length = xLength.GetValueAsInt();
             }
         }
 

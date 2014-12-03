@@ -41,7 +41,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [ExpectedException(typeof(DocumentParseException))]
         public void NoProperties()
         {
-            var document = GetMappingDocument("Class.NoProperties.xml");
+            var document = GetMappingDocument("Table.NoProperties.xml");
             MappingFactory.CreateMapping(document);
         }
 
@@ -49,7 +49,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [ExpectedException(typeof(DocumentParseException))]
         public void NoTableName()
         {
-            var document = GetMappingDocument("Class.NoTableName.xml");
+            var document = GetMappingDocument("Table.NoTableName.xml");
             MappingFactory.CreateMapping(document);
         }
 
@@ -57,14 +57,14 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [ExpectedException(typeof(DocumentParseException))]
         public void NoClassName()
         {
-            var document = GetMappingDocument("Class.NoClassName.xml");
+            var document = GetMappingDocument("Table.NoClassName.xml");
             MappingFactory.CreateMapping(document);
         }
 
         [Test]
         public void NoSchema()
         {
-            var document = GetMappingDocument("Class.NoSchema.xml");
+            var document = GetMappingDocument("Table.NoSchema.xml");
             var mapping = MappingFactory.CreateMapping(document);
 
             Assert.IsNull(mapping.Schema);
@@ -73,7 +73,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [Test]
         public void NoDiscriminatorValue()
         {
-            var document = GetMappingDocument("Class.CheckClassAttributes.xml");
+            var document = GetMappingDocument("Table.CheckClassAttributes.xml");
             var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
 
             Assert.IsNull(mapping.DiscriminatorValue);
@@ -82,7 +82,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [Test]
         public void CheckSchemaName()
         {
-            var document = GetMappingDocument("Class.CheckClassAttributes.xml");
+            var document = GetMappingDocument("Table.CheckClassAttributes.xml");
             var mapping = MappingFactory.CreateMapping(document);
 
             Assert.AreEqual("test_dbm", mapping.Schema);
@@ -91,7 +91,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [Test]
         public void CheckTableName()
         {
-            var document = GetMappingDocument("Class.CheckClassAttributes.xml");
+            var document = GetMappingDocument("Table.CheckClassAttributes.xml");
             var mapping = MappingFactory.CreateMapping(document);
 
             Assert.AreEqual("shapes", mapping.Name);
@@ -100,7 +100,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [Test]
         public void CheckClassName()
         {
-            var document = GetMappingDocument("Class.CheckClassAttributes.xml");
+            var document = GetMappingDocument("Table.CheckClassAttributes.xml");
             var mapping = MappingFactory.CreateMapping(document);
 
             Assert.AreEqual(typeof(Shape), mapping.Type);
@@ -109,7 +109,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [Test]
         public void CheckMappingType()
         {
-            var document = GetMappingDocument("Class.CheckClassAttributes.xml");
+            var document = GetMappingDocument("Table.CheckClassAttributes.xml");
             var mapping = MappingFactory.CreateMapping(document);
 
             Assert.IsInstanceOf<XmlTableMapping>(mapping);
@@ -119,7 +119,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [ExpectedException(typeof(DocumentParseException))]
         public void ClassDiscriminatorValueWithoutColumn()
         {
-            var document = GetMappingDocument("Class.DiscriminatorValueWithoutColumn.xml");
+            var document = GetMappingDocument("Table.DiscriminatorValueWithoutColumn.xml");
             MappingFactory.CreateMapping(document);
         }
 
@@ -127,14 +127,14 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [ExpectedException(typeof(DocumentParseException))]
         public void WrongClassDiscriminatorValueType()
         {
-            var document = GetMappingDocument("Class.WrongDiscriminatorValueType.xml");
+            var document = GetMappingDocument("Table.WrongDiscriminatorValueType.xml");
             MappingFactory.CreateMapping(document);
         }
 
         [Test]
         public void CheckClassDiscriminatorStringValue()
         {
-            var document = GetMappingDocument("Class.CheckDiscriminatorStringValue.xml");
+            var document = GetMappingDocument("Table.CheckDiscriminatorStringValue.xml");
             var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
             Assert.AreEqual("Shape", mapping.DiscriminatorValue);
         }
@@ -142,7 +142,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         [Test]
         public void CheckClassDiscriminatorLongValue()
         {
-            var document = GetMappingDocument("Class.CheckDiscriminatorLongValue.xml");
+            var document = GetMappingDocument("Table.CheckDiscriminatorLongValue.xml");
             var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
             Assert.AreEqual(123L, mapping.DiscriminatorValue);
         }

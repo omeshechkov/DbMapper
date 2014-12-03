@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Utils;
 using DbMapper.Oracle.Mappings;
 
@@ -11,7 +12,14 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 
         public XmlObjectTableMapping(XElement xMapping)
         {
-            var xObjectTable = xMapping.Element(XNamespace + "object-table");
+            if (xMapping == null)
+                throw new DocumentParseException("Cannot build object table mapping", new ArgumentNullException("xMapping"));
+
+
+            XElement xObjectTable;
+
+            if (!xMapping.TryGetElement(XNamespace + "object-table", out xObjectTable))
+                throw new DocumentParseException("Cannot find object-table at object table mapping");
 
             XAttribute xSchema;
             if (xObjectTable.TryGetAttribute("schema", out xSchema))
@@ -19,13 +27,39 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xObjectTable.Attribute("name").Value;
+            XAttribute xName;
+            if (!xObjectTable.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at object table mapping");
 
-            Type = xObjectTable.Attribute("class").GetAsType();
+            Name = xName.Value;
 
-            var objectTypeString = xObjectTable.Attribute("object-type").Value;
+            XAttribute xClass;
+            if (!xObjectTable.TryGetAttribute("class", out xClass))
+                throw new DocumentParseException("Cannot find class at object table mapping");
 
-            ObjectType = TypeUtils.ParseType(objectTypeString, false);
+            try
+            {
+                Type = xClass.GetValueAsType();
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at object table mapping", xClass.Value), ex);
+            }
+
+            XAttribute xObjectClass;
+            if (!xObjectTable.TryGetAttribute("object-class", out xObjectClass))
+                throw new DocumentParseException("Cannot find object-class at object table mapping");
+
+            var objectTypeString = xObjectClass.Value;
+
+            try
+            {
+                ObjectType = TypeUtils.ParseType(objectTypeString, false);
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' object-class at object table mapping", objectTypeString), ex);
+            }            
         }
 
         public string Name { get; private set; }

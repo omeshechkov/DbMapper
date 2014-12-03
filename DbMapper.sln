@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMapper.Oracle", "DbMapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMapper.Impl.Mappings.Xml.Oracle", "DbMapper.Impl.Mappings.Xml.Oracle\DbMapper.Impl.Mappings.Xml.Oracle.csproj", "{D38CC947-E951-4312-99CD-C0618E8292BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMapper.Impl.Mappings.Xml.Oracle.Test", "DbMapper.Impl.Mappings.Xml.Oracle.Test\DbMapper.Impl.Mappings.Xml.Oracle.Test.csproj", "{6F8B3CDC-301C-449B-99DD-71C80AB23D3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{D38CC947-E951-4312-99CD-C0618E8292BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D38CC947-E951-4312-99CD-C0618E8292BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D38CC947-E951-4312-99CD-C0618E8292BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F8B3CDC-301C-449B-99DD-71C80AB23D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F8B3CDC-301C-449B-99DD-71C80AB23D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F8B3CDC-301C-449B-99DD-71C80AB23D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F8B3CDC-301C-449B-99DD-71C80AB23D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,10 +8,10 @@ namespace DbMapper.Oracle.Mappings
     {
         MethodInfo Delegate { get; }
 
-        IFunctionReturnMapping Return { get; set; }
+        IFunctionReturnValueMapping ReturnValue { get; set; }
     }
 
-    public interface IFunctionReturnMapping
+    public interface IFunctionReturnValueMapping
     {
         IConverter Converter { get; }
 

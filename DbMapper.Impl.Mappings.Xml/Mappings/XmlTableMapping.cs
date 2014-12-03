@@ -24,7 +24,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
             Name = xTable.Attribute("name").Value;
 
-            Type = xTable.Attribute("class").GetAsType();
+            Type = xTable.Attribute("class").GetValueAsType();
 
             Properties = new List<IPropertyMapping>();
             foreach (var xProperty in xTable.Elements(XNamespace + "property"))

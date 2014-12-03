@@ -15,9 +15,16 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
     {
         private static readonly XNamespace XNamespace = "urn:dbm-oracle-object-mapping";
 
-        public XmlObjectMapping(XContainer xMapping)
+        public XmlObjectMapping(XElement xMapping)
         {
-            var xObject = xMapping.Element(XNamespace + "object");
+            if (xMapping == null)
+                throw new DocumentParseException("Cannot build object mapping", new ArgumentNullException("xMapping"));                
+
+
+            XElement xObject;
+
+            if (!xMapping.TryGetElement(XNamespace + "object", out xObject))
+                throw new DocumentParseException("Cannot find object at object mapping");
 
             XAttribute xSchema;
             if (xObject.TryGetAttribute("schema", out xSchema))
@@ -25,9 +32,24 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xObject.Attribute("name").Value;
+            XAttribute xName;
+            if (!xObject.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at object mapping");
 
-            Type = xObject.Attribute("name").GetAsType();
+            Name = xName.Value;
+
+            XAttribute xClass;
+            if (!xObject.TryGetAttribute("class", out xClass))
+                throw new DocumentParseException("Cannot find class at object mapping");
+
+            try
+            {
+                Type = xClass.GetValueAsType();
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at object mapping", xClass.Value), ex);
+            }
 
             Properties = new List<IPropertyMapping>();
             foreach (var xProperty in xObject.Elements(XNamespace + "property"))
@@ -49,14 +71,22 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
     {
         public XmlObjectPropertyMapping(Type classType, XElement xObjectProperty)
         {
-            Name = xObjectProperty.Attribute("attribute").Value;
-            
-            var name = xObjectProperty.Attribute("name").Value;
+            XAttribute xAttribute;
+            if (!xObjectProperty.TryGetAttribute("attribute", out xAttribute))
+                throw new DocumentParseException("Cannot find attribute at object property mapping");
+
+            Name = xAttribute.Value;
+
+            XAttribute xName;
+            if (!xObjectProperty.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at object property mapping");
+
+            var name = xName.Value;
 
             Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", name);
+                throw new DocumentParseException("Canot find member '{0}' of type '{1}'", name, classType.AssemblyQualifiedName);
 
             XAttribute xConverter;
             if (xObjectProperty.TryGetAttribute("converter", out xConverter))

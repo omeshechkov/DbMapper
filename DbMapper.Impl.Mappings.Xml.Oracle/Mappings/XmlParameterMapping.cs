@@ -11,21 +11,24 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlParameterMapping : IParameterMapping
     {
-        public XmlParameterMapping()
-        {
-            DbType = (DbType)(-1);
-        }
-
         public XmlParameterMapping(MethodInfo methodInfo, XElement xParameter)
         {
-            DbParameterName = xParameter.Attribute("db-name").Value;
+            XAttribute xDbName;
+            if (!xParameter.TryGetAttribute("db-name", out xDbName))
+                throw new DocumentParseException("Cannot find db-name at function mapping");
 
-            var parameterName = xParameter.Attribute("name").Value;
+            DbParameterName = xDbName.Value;
+
+            XAttribute xName;
+            if (!xParameter.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at function mapping");
+
+            var parameterName = xName.Value;
 
             Parameter = methodInfo.GetParameters().FirstOrDefault(p => p.Name == parameterName);
 
             if (Parameter == null)
-                throw new DocumentParseException("Canot find parameter '{0}'", parameterName);
+                throw new DocumentParseException("Cannot find parameter '{0}' at function parameter mapping", parameterName);
 
             XAttribute xConverter;
             if (xParameter.TryGetAttribute("converter", out xConverter))
@@ -36,13 +39,17 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
             XAttribute xDbType;
             if (xParameter.TryGetAttribute("db-type", out xDbType))
             {
-                DbType = xDbType.GetAsEnum<DbType>();
+                DbType = xDbType.GetValueAsEnum<DbType>();
+            }
+            else
+            {
+                DbType = (DbType)(-1);
             }
 
             XAttribute xLength;
             if (xParameter.TryGetAttribute("length", out xLength))
             {
-                Length = xLength.GetAsInt();
+                Length = xLength.GetValueAsInt();
             }
         }
 

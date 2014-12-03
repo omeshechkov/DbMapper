@@ -79,19 +79,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\NoProperties.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\NoProperties.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\NoSchema.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\NoSchema.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\NoTableName.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\NoTableName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\NoClassName.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\NoClassName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\CheckClassAttributes.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\CheckClassAttributes.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TableMapping\Resources\Property\NoPropertyName.xml" />
@@ -228,16 +228,16 @@
     <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyStaticPropertyReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\DiscriminatorValueWithoutColumn.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\DiscriminatorValueWithoutColumn.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\WrongDiscriminatorValueType.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\WrongDiscriminatorValueType.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\CheckDiscriminatorStringValue.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\CheckDiscriminatorStringValue.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Class\CheckDiscriminatorLongValue.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Table\CheckDiscriminatorLongValue.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TableMapping\Resources\PrimaryKey\NoPrimaryKeyName.xml" />
@@ -303,31 +303,31 @@
     <EmbeddedResource Include="ViewMapping\Resources\Discriminator\CheckDiscriminatorColumnAttributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\CheckClassAttributes.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\CheckClassAttributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\CheckDiscriminatorLongValue.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\CheckDiscriminatorLongValue.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\CheckDiscriminatorStringValue.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\CheckDiscriminatorStringValue.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\DiscriminatorValueWithoutColumn.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\DiscriminatorValueWithoutColumn.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\NoViewClass.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\NoViewClass.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\NoProperties.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\NoProperties.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\NoSchema.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\NoSchema.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\NoViewName.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\NoViewName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Class\WrongDiscriminatorValueType.xml" />
+    <EmbeddedResource Include="ViewMapping\Resources\View\WrongDiscriminatorValueType.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ViewMapping\Resources\Discriminator\NoDiscriminatorColumnName.xml" />

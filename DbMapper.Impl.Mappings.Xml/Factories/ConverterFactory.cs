@@ -32,7 +32,8 @@ namespace DbMapper.Impl.Mappings.Xml.Factories
                     return converter;
 
                 if (!typeof(IConverter).IsAssignableFrom(converterType))
-                    throw new DocumentParseException("Illegal converter class '{0}', class must be inherited from '{1}'", converterType.FullName, typeof(IConverter).FullName);
+                    throw new DocumentParseException("Illegal converter class '{0}', class must be inherited from '{1}'", 
+                        converterType.AssemblyQualifiedName, typeof(IConverter).AssemblyQualifiedName);
 
                 converter = (IConverter)Activator.CreateInstance(converterType);
 

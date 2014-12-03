@@ -15,13 +15,12 @@
 
   <xs:complexType name="function-type">
     <xs:sequence>
-      <xs:element name="return-value" type="return-value-type"  minOccurs="0" maxOccurs="1" />
+      <xs:element name="return-value" type="return-value-type"  minOccurs="1" maxOccurs="1" />
       <xs:element name="parameter" type="parameter-type"  minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
 
     <xs:attribute name="schema" type="xs:string" use="optional" />
     <xs:attribute name="name" type="xs:string" use="required" />
-    <xs:attribute name="class" type="xs:string" use="optional" />
     <xs:attribute name="delegate" type="xs:string" use="required" />
   </xs:complexType>
 

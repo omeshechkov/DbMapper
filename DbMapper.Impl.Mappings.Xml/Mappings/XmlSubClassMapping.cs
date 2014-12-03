@@ -11,7 +11,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
     {
         public XmlSubClassMapping(IHasDiscriminatorColumn tableMapping, XNamespace xNamespace, XElement xSubClass)
         {
-            Type = xSubClass.Attribute("name").GetAsType();
+            Type = xSubClass.Attribute("name").GetValueAsType();
 
             Properties = new List<IPropertyMapping>();
 

@@ -20,7 +20,6 @@
 
     <xs:attribute name="schema" type="xs:string" use="optional" />
     <xs:attribute name="name" type="xs:string" use="required" />
-    <xs:attribute name="class" type="xs:string" use="optional" />
     <xs:attribute name="delegate" type="xs:string" use="required" />
   </xs:complexType>
   

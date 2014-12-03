@@ -6,7 +6,7 @@ namespace DbMapper.Impl.Mappings.Xml.Utils
 {
     public static class XmlUtils
     {
-        private static string GetAsString(this XObject xObject)
+        private static string GetValueAsString(this XObject xObject)
         {
             var xElement = xObject as XElement;
             if (xElement != null)
@@ -23,9 +23,9 @@ namespace DbMapper.Impl.Mappings.Xml.Utils
             throw new Exception(string.Format("Cannot get string value from '{0}'", xObject));
         }
 
-        public static bool GetAsBoolean(this XObject xObject)
+        public static bool GetValueAsBoolean(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             if (value == "1")
                 return true;
@@ -36,51 +36,51 @@ namespace DbMapper.Impl.Mappings.Xml.Utils
             return bool.Parse(value);
         }
 
-        public static byte GetAsByte(this XObject xObject)
+        public static byte GetValueAsByte(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return byte.Parse(value);
         }
 
-        public static short GetAsShort(this XObject xObject)
+        public static short GetValueAsShort(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return short.Parse(value);
         }
 
-        public static int GetAsInt(this XObject xObject)
+        public static int GetValueAsInt(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return int.Parse(value);
         }
 
-        public static long GetAsLong(this XObject xObject)
+        public static long GetValueAsLong(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return long.Parse(value);
         }
 
-        public static Type GetAsType(this XObject xObject)
+        public static Type GetValueAsType(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return Type.GetType(value, true);
         }
 
-        public static Guid GetAsGuid(this XObject xObject)
+        public static Guid GetValueAsGuid(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return Guid.Parse(value);
         }
 
-        public static T GetAsEnum<T>(this XObject xObject)
+        public static T GetValueAsEnum<T>(this XObject xObject)
         {
-            var value = xObject.GetAsString();
+            var value = xObject.GetValueAsString();
 
             return (T)Enum.Parse(typeof(T), value);
         }

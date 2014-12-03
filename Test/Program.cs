@@ -82,30 +82,13 @@ namespace Test
     {
         public static class Functions
         {
-            public static OraFunction SuperFunc;
+            internal delegate void OraFunction(long parameter);
         }
 
         static void Main(string[] args)
         {
 
-            var doc = @"
-<table-mapping xmlns='urn:dbm-table-mapping'>
-  <class name='Event' table='event' schema='bigbet'>
-    <temp />
-    <temp />
-  </class>
-</table-mapping>
-    ";
-
-
-            var xElement = XDocument.Parse(doc).Root;
-            
-            var res = xElement.Element("{urn:dbm-table-mapping}class");
-
-            foreach (var element in res.Elements("{urn:dbm-table-mapping}temp"))
-            {
-                Console.WriteLine(element);
-            }
+            Console.WriteLine(Type.GetType("Test.Program+Functions+OraFunction").GetMethod("Invoke"));
             return;
 
             var xmlAssembly = Assembly.Load("DbMapper.Impl.Mappings.Xml");

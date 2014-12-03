@@ -23,7 +23,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
             Name = xView.Attribute("name").Value;
 
-            Type = xView.Attribute("class").GetAsType();
+            Type = xView.Attribute("class").GetValueAsType();
 
             Properties = new List<IPropertyMapping>();
             foreach (var xProperty in xView.Elements(XNamespace + "property"))

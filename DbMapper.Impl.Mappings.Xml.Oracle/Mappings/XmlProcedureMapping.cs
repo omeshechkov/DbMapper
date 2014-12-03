@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
@@ -15,7 +14,13 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 
         public XmlProcedureMapping(XElement xMapping)
         {
-            var xProcedure = xMapping.Element(XNamespace + "procedure");
+            if (xMapping == null)
+                throw new DocumentParseException("Cannot build procedure mapping", new ArgumentNullException("xMapping"));                
+
+            XElement xProcedure;
+
+            if (!xMapping.TryGetElement(XNamespace + "procedure", out xProcedure))
+                throw new DocumentParseException("Cannot find procedure at procedure mapping");
 
             XAttribute xSchema;
             if (xProcedure.TryGetAttribute("schema", out xSchema))
@@ -23,34 +28,25 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xProcedure.Attribute("name").Value;
+            XAttribute xName;
+            if (!xProcedure.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at procedure mapping");
 
-            string delegateFullPath;
+            Name = xName.Value;
 
-            XAttribute xClass;
-            if (xProcedure.TryGetAttribute("class", out xClass))
+            XAttribute xDelegate;
+            if (!xProcedure.TryGetAttribute("delegate", out xDelegate))
+                throw new DocumentParseException("Cannot find delegate at procedure mapping");
+
+            try
             {
-                var @class = xClass.GetAsType();
-                var delegateName = xProcedure.Attribute("delegate").Value;
-
-                delegateFullPath = string.Format("{0}.{1}", @class, delegateName);
-
-                var member = @class.GetMember(delegateName, MemberTypes.Field | MemberTypes.Property, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
-
-                if (member == null)
-                    throw new DocumentParseException("Cannot find static member '{0}' of '{1}' class", delegateName, @class.FullName);
-
-                Type = TypeUtils.GetMemberType(member);
+                Type = xDelegate.GetValueAsType();
             }
-            else
+            catch (Exception ex)
             {
-                Type = xProcedure.Attribute("delegate").GetAsType();
-
-                delegateFullPath = Type.FullName;
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at procedure mapping", xDelegate.Value), ex);
             }
 
-            if (!typeof(Delegate).IsAssignableFrom(Type))
-                throw new DocumentParseException("'{0}' should be a delegate", delegateFullPath);
 
             Delegate = Type.GetMethod("Invoke");
 

@@ -1,5 +1,5 @@
 ﻿<function-mapping xmlns="urn:dbm-oracle-function-mapping">
-  <function schema="bigbet" name="management.func" class="Test.DatabaseFacade+Management" delegate="Func">
+  <function schema="bigbet" name="management.func" delegate="Test.DatabaseFacade+Management+Func">
     <return-value length="123" db-type="Int64"/>
     
     <parameter name="FactorId" db-name="factor_id" db-type="Int64" />

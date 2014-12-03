@@ -30,10 +30,10 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
 
             XAttribute xInsert;
-            Insert = !xTableProperty.TryGetAttribute("insert", out xInsert) || xInsert.GetAsBoolean();
+            Insert = !xTableProperty.TryGetAttribute("insert", out xInsert) || xInsert.GetValueAsBoolean();
 
             XAttribute xUpdate;
-            Update = !xTableProperty.TryGetAttribute("update", out xUpdate) || xUpdate.GetAsBoolean();
+            Update = !xTableProperty.TryGetAttribute("update", out xUpdate) || xUpdate.GetValueAsBoolean();
 
             XAttribute xConverter;
             if (xTableProperty.TryGetAttribute("converter", out xConverter))
