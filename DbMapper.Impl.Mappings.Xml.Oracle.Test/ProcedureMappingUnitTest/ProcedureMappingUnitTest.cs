@@ -95,6 +95,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
 </procedure-mapping>", typeof(DatabaseFacade.SuperProc).AssemblyQualifiedName));
 
             var mapping = new XmlProcedureMapping(xml);
+            Assert.AreEqual(typeof(DatabaseFacade.SuperProc), mapping.Type);
             Assert.AreEqual(typeof(DatabaseFacade.SuperProc).GetMethod("Invoke"), mapping.Delegate);
         }
         

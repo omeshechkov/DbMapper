@@ -107,6 +107,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
 </function-mapping>", typeof(DatabaseFacade.SuperFunc).AssemblyQualifiedName));
 
             var mapping = new XmlFunctionMapping(xml);
+            Assert.AreEqual(typeof(DatabaseFacade.SuperFunc), mapping.Type);
             Assert.AreEqual(typeof(DatabaseFacade.SuperFunc).GetMethod("Invoke"), mapping.Delegate);
         }
         
