@@ -1,0 +1,11 @@
+﻿<view-mapping xmlns="urn:dbm-view-mapping">
+  <view schema="test_dbm" name="shapes" class="DbMapper.Impl.Mappings.Xml.Test.ViewMapping.Model.Shape, DbMapper.Impl.Mappings.Xml.Test">
+    <property name="Id" column="id" />
+
+    <subclass name="DbMapper.Impl.Mappings.Xml.Test.ViewMapping.Model.Rectangle, DbMapper.Impl.Mappings.Xml.Test">
+      <join schema="test_dbm">
+        <column name="rectangle_id" join-schema="test_dbm" join-table="shape" join-column="id"/>
+      </join>
+    </subclass>
+  </view>
+</view-mapping>

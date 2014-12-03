@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view-mapping xmlns="urn:dbm-view-mapping">
+  <view schema="bigbet" name="v$view" class="SomeView">
+    <property name="Property1" column="property1" />
+
+    <property name="Value" column="value" />
+  </view>
+</view-mapping>

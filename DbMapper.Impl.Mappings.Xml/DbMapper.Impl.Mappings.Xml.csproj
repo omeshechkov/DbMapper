@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9790D544-12E5-44CF-B084-CFB91B76E15B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DbMapper.Impl.Mappings.Xml</RootNamespace>
+    <AssemblyName>DbMapper.Impl.Mappings.Xml</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="Exceptions\DocumentLoadException.cs" />
+    <Compile Include="Exceptions\DocumentParseException.cs" />
+    <Compile Include="Exceptions\ParseValueException.cs" />
+    <Compile Include="Exceptions\ParseTypeException.cs" />
+    <Compile Include="Factories\MappingFactory.cs" />
+    <Compile Include="Mappings\XmlViewPropertyMapping.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Mappings\XmlSubClassMapping.cs" />
+    <Compile Include="Factories\GeneratorFactory.cs" />
+    <Compile Include="Factories\ConverterFactory.cs" />
+    <Compile Include="Utils\TypeUtils.cs" />
+    <Compile Include="Utils\XmlUtils.cs" />
+    <Compile Include="Mappings\XmlDiscriminatorColumn.cs" />
+    <Compile Include="XmlMappingBuilder.cs" />
+    <Compile Include="Mappings\XmlTableMapping.cs" />
+    <Compile Include="Mappings\XmlTablePropertyMapping.cs" />
+    <Compile Include="Mappings\XmlVersionProperty.cs" />
+    <Compile Include="Mappings\XmlViewMapping.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DbMapper\DbMapper.csproj">
+      <Project>{40e01927-4921-44d1-a5cf-cb0b7677f4ba}</Project>
+      <Name>DbMapper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="XSD\ViewMapping.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\TableMapping.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

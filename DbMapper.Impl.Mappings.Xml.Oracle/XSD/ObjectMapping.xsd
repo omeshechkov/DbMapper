@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="urn:dbm-oracle-object-mapping"
+           targetNamespace="urn:dbm-oracle-object-mapping"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  
+  <xs:element name="object-mapping" type="object-mapping-type" />
+
+  <xs:complexType name="object-mapping-type">
+    <xs:sequence>
+      <xs:element name="object" type="object-type" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="object-type">
+    <xs:sequence>
+      <xs:element name="property" type="property-type"  minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+
+    <xs:attribute name="schema" type="xs:string" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="class" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="property-type">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="attribute" type="xs:string" use="required"/>
+    <xs:attribute name="converter" type="xs:string" use="optional"/>
+  </xs:complexType>
+</xs:schema>

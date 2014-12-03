@@ -1,0 +1,5 @@
+﻿<view-mapping xmlns="urn:dbm-view-mapping">
+  <view schema="test_dbm" name="shapes">
+    <property name="Id" column="id" />
+  </view>
+</view-mapping>

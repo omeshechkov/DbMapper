@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="urn:dbm-oracle-object-table-mapping"
+           targetNamespace="urn:dbm-oracle-object-table-mapping"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  
+  <xs:element name="object-table-mapping" type="object-table-mapping-type" />
+
+  <xs:complexType name="object-table-mapping-type">
+    <xs:sequence>
+      <xs:element name="object-table" type="object-table-type" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="object-table-type">
+    <xs:attribute name="schema" type="xs:string" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="class" type="xs:string" use="required" />
+    <xs:attribute name="object-class" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,3 @@
+﻿<object-table-mapping xmlns="urn:dbm-oracle-object-table-mapping">
+  <object-table schema="bigbet" name="factor_object_table" class="FactorObjectTable" object-class="FactorObject" />
+</object-table-mapping>

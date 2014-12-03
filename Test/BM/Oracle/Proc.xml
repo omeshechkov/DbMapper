@@ -1,0 +1,11 @@
+﻿<procedure-mapping xmlns="urn:dbm-oracle-procedure-mapping">
+  <procedure schema="bigbet" name="management.proc" delegate="Management.Proc">
+    <parameter name="FactorId" db-name="factor_id" />
+    
+    <parameter name="isReady" db-name="is_ready" converter="YN" db-type="Char" length="1" />
+    
+    <parameter name="factor" db-name="factor" />
+
+    <parameter name="factors" db-name="factors" />
+  </procedure>
+</procedure-mapping>

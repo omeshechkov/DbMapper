@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<table-mapping xmlns="urn:dbm-table-mapping">
+  <table schema="bigbet" name="event" class="event">
+    <discriminator column="type" type="long"/>
+
+    <property name="Id" column="id">
+      <generator>
+        <sequence name="seq_name" />
+      </generator>
+    </property>
+
+    <property name="CreationTimeAndZone" column="creation_time_and_zone">
+      <generator>
+        <db-assigned />
+      </generator>
+    </property>
+
+    <property name="StringProperty" column="value" />
+
+    <property name="BoolProperty" column="bool" converter="YesNoConverter" update="false" insert="false" />
+
+    <version name="Version" column="version" />
+
+    <primary-key>
+      <property name="Id" />
+      <property name="CreationTimeAndZone" />
+    </primary-key>
+
+    <subclass name="RegularEvent" discriminator-value="1">
+      <join table="regular_event">
+        <column name="event_id" join-table="event" join-column="id" />
+        <column name="event_time_and_zone" join-table="event" join-column="creation_time_and_zone" />
+      </join>
+
+      <property name="StringValue" column="value" />
+    </subclass>
+
+    <subclass name="LotteryEvent" discriminator-value="2">
+      <join schema="bigbet" table="lottery_event">
+        <column name="event_id" join-schema="bigbet" join-table="event" join-column="id" />
+        <column name="event_time_and_zone" join-schema="bigbet" join-table="event" join-column="creation_time_and_zone" />
+      </join>
+
+      <property name="StringValue" column="value" />
+    </subclass>
+  </table>
+</table-mapping>

@@ -1,0 +1,13 @@
+﻿<function-mapping xmlns="urn:dbm-oracle-function-mapping">
+  <function schema="bigbet" name="management.func" class="Test.DatabaseFacade+Management" delegate="Func">
+    <return-value length="123" db-type="Int64"/>
+    
+    <parameter name="FactorId" db-name="factor_id" db-type="Int64" />
+    
+    <parameter name="IsReady" db-name="is_ready" converter="YN" length="1" />
+    
+    <parameter name="Factor" db-name="factor" />
+
+    <parameter name="Factors" db-name="factors" />
+  </function>
+</function-mapping>

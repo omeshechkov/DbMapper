@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="urn:dbm-oracle-procedure-mapping"
+           targetNamespace="urn:dbm-oracle-procedure-mapping"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  
+  <xs:element name="procedure-mapping" type="procedure-mapping-type" />
+
+  <xs:complexType name="procedure-mapping-type">
+    <xs:sequence>
+      <xs:element name="procedure" type="procedure-type" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="procedure-type">
+    <xs:sequence>
+      <xs:element name="parameter" type="parameter-type"  minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+
+    <xs:attribute name="schema" type="xs:string" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="class" type="xs:string" use="optional" />
+    <xs:attribute name="delegate" type="xs:string" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="parameter-type">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="db-name" type="xs:string" use="required"/>
+    <xs:attribute name="db-type" type="xs:string" use="optional"/>
+    <xs:attribute name="length" type="xs:positiveInteger" use="optional"/>
+    <xs:attribute name="converter" type="xs:string" use="optional"/>
+  </xs:complexType>
+</xs:schema>
