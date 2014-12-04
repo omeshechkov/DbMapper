@@ -42,7 +42,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoTableName()
+        public void NoName()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -56,7 +56,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoClassName()
+        public void NoClass()
         {
             var xml = XElement.Parse(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -70,7 +70,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoTableSchema()
+        public void NoSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -84,7 +84,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoTableDiscriminatorValue()
+        public void NoDiscriminatorValue()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -98,7 +98,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoTableDiscriminator()
+        public void NoDiscriminator()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -112,7 +112,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckTableSchemaName()
+        public void CheckSchemaName()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -126,7 +126,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckTableName()
+        public void CheckName()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -140,7 +140,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckTableClassName()
+        public void CheckClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -154,7 +154,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void ClassTableDiscriminatorValueWithoutColumn()
+        public void ClassDiscriminatorValueWithoutColumn()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -168,7 +168,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void WrongTableClassDiscriminatorValueType()
+        public void WrongDiscriminatorValueType()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -184,7 +184,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckTableClassDiscriminatorStringValue()
+        public void CheckDiscriminatorStringValue()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -200,7 +200,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckTableClassDiscriminatorLongValue()
+        public void CheckDiscriminatorLongValue()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -216,7 +216,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPrimaryKeyName()
+        public void NoPrimaryKeyPropertyName()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -236,7 +236,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void WrongPrimaryKeyName()
+        public void WrongPrimaryKeyPropertyName()
         {
             var xml = XElement.Parse(string.Format(@"
 <table-mapping xmlns='urn:dbm-table-mapping'>
@@ -283,6 +283,57 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
 
             Assert.Contains(idPropertyInfo, primaryKeyProperties);
             Assert.Contains(timeAndZoneFieldInfo, primaryKeyProperties);
+        }
+
+        [Test]
+        public void CheckProperties()
+        {
+            var xml = XElement.Parse(string.Format(@"
+<table-mapping xmlns='urn:dbm-table-mapping'>
+  <table schema='test_dbm' name='shapes' class='{0}'>
+    <property name='Id' column='id' />
+    
+    <property name='Version' column='version' />
+  </table>
+</table-mapping>", typeof(Shape).AssemblyQualifiedName));
+
+            var mapping = new XmlTableMapping(xml);
+            Assert.AreEqual(2L, mapping.Properties.Count);
+        }
+        
+        [Test]
+        public void CheckVersion()
+        {
+            var xml = XElement.Parse(string.Format(@"
+<table-mapping xmlns='urn:dbm-table-mapping'>
+  <table schema='test_dbm' name='shapes' class='{0}'>
+    <property name='Id' column='id' />
+    
+    <version name='Version' column='version' />
+  </table>
+</table-mapping>", typeof(Shape).AssemblyQualifiedName));
+
+            var mapping = new XmlTableMapping(xml);
+            Assert.IsInstanceOf<XmlVersionProperty>(mapping.VersionProperty);
+        }
+        
+        [Test]
+        public void CheckSubclasses()
+        {
+            var xml = XElement.Parse(string.Format(@"
+<table-mapping xmlns='urn:dbm-table-mapping'>
+  <table schema='test_dbm' name='shapes' class='{0}'>
+    <discriminator column='type' type='long' />
+
+    <property name='Id' column='id' />
+    
+    <subclass name='{1}' discriminator-value='1' />
+    <subclass name='{2}' discriminator-value='2' />
+  </table>
+</table-mapping>", typeof(Shape).AssemblyQualifiedName, typeof(TwoDimensionalShape).AssemblyQualifiedName, typeof(ThreeDimensionalShape).AssemblyQualifiedName));
+
+            var mapping = new XmlTableMapping(xml);
+            Assert.AreEqual(2, mapping.SubClasses.Count);
         }
     }
 }

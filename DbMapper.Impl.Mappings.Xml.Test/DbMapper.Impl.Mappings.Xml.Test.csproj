@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -56,14 +59,14 @@
     <Compile Include="ParseTypeUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableMapping\Model\PrimaryKeyMemberReference.cs" />
-    <Compile Include="TableMapping\Model\VersionMemberReference.cs" />
-    <Compile Include="TableMapping\Model\PropertyMemberReference.cs" />
     <Compile Include="TableMapping\Model\Shape.cs" />
     <Compile Include="TableMapping\TableDiscriminatorUnitTest.cs" />
+    <Compile Include="TableMapping\TableSubclassJoinColumnMappingUnitTest.cs" />
+    <Compile Include="TableMapping\TableSubclassJoinMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableVersionPropertyMappingUnitTest.cs" />
     <Compile Include="TableMapping\TablePropertyGeneratorFactoryUnitTest.cs" />
     <Compile Include="TableMapping\TablePropertyMappingUnitTest.cs" />
-    <Compile Include="TableMapping\TableMappingUnitTest - Copy.cs" />
+    <Compile Include="TableMapping\TableSubclassMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableMappingUnitTest.cs" />
     <Compile Include="ViewMapping\Model\PropertyMemberReference.cs" />
     <Compile Include="ViewMapping\Model\Shape.cs" />
@@ -82,57 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\NoSubclassName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckSubclassName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckDiscriminatorLongValue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckDiscriminatorStringValue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\DiscriminatorValueWithoutColumn.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\WrongDiscriminatorValueType.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckEmptyJoin.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckNoJoinTable.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckNoJoinSchema.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckJoinAttributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckJoinNoColumnName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckJoinNoColumnJoinSchema.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckJoinNoColumnJoinTable.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckJoinNoColumnJoinColumn.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckJoinColumnAttributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckSubclassSubclass.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckSubclassProperties.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ViewMapping\Resources\Discriminator\CheckDiscriminatorColumnAttributes.xml" />

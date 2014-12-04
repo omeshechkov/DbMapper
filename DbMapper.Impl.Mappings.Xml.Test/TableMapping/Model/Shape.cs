@@ -25,7 +25,21 @@
         public long Y { get; set; }
     }
 
+    public class ThreeDimensionalShape : Shape
+    {
+        public long X { get; set; }
+        
+        public long Y { get; set; }
+    }
+
     public class Rectangle : TwoDimensionalShape
+    {
+        public long Width { get; set; }
+        
+        public long Height { get; set; }
+    }
+
+    public class Circle : TwoDimensionalShape
     {
         public long Width { get; set; }
         

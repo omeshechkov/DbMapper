@@ -9,13 +9,29 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlSubClassMapping : ISubClassMapping
     {
-        public XmlSubClassMapping(IHasDiscriminatorColumn tableMapping, XNamespace xNamespace, XElement xSubClass)
+        public XmlSubClassMapping(IDiscriminatorColumn discriminatorColumn, XElement xSubClass)
         {
-            Type = xSubClass.Attribute("name").GetValueAsType();
+            XAttribute xName;
+            if (!xSubClass.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at table subclass mapping");
+
+            try
+            {
+                Type = xName.GetValueAsType();
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException(string.Format("Cannot recognize subclass '{0}' at table subclass mapping", xName.Value));
+            }
+
+            XElement xSubClassJoin;
+            if (xSubClass.TryGetElement(XmlTableMapping.XNamespace + "join", out xSubClassJoin))
+            {
+                Join = new XmlSubClassJoin(xSubClassJoin);
+            }
 
             Properties = new List<IPropertyMapping>();
-
-            foreach (var xProperty in xSubClass.Elements(xNamespace + "property"))
+            foreach (var xProperty in xSubClass.Elements(XmlTableMapping.XNamespace + "property"))
             {
                 Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
             }
@@ -23,31 +39,23 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             XAttribute xDiscriminatorValue;
             if (xSubClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                var discriminator = tableMapping.Discriminator;
-
-                if (discriminator == null)
-                    throw new DocumentParseException("Cannot parse subclass discriminator value, unknown discriminator type");
+                if (discriminatorColumn == null)
+                    throw new DocumentParseException("Cannot parse subclass discriminator value at table subclass mapping, unknown discriminator type");
 
                 try
                 {
-                    DiscriminatorValue = TypeUtils.ParseAs(discriminator.Type, xDiscriminatorValue.Value);
+                    DiscriminatorValue = TypeUtils.ParseAs(discriminatorColumn.Type, xDiscriminatorValue.Value);
                 }
                 catch (Exception ex)
                 {
-                    throw new DocumentParseException(string.Format("Cannot parse subclass discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, discriminator.Type), ex);
+                    throw new DocumentParseException(string.Format("Cannot parse subclass discriminator value '{0}' as '{1}' at table subclass mapping", xDiscriminatorValue.Value, discriminatorColumn.Type.AssemblyQualifiedName), ex);
                 }
             }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubSubClass in xSubClass.Elements(xNamespace + "subclass"))
+            foreach (var xSubSubClass in xSubClass.Elements(XmlTableMapping.XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(tableMapping, xNamespace, xSubSubClass));
-            }
-
-            XElement xSubClassJoin;
-            if (xSubClass.TryGetElement(xNamespace + "join", out xSubClassJoin))
-            {
-                Join = new XmlSubClassJoin(xNamespace, xSubClassJoin);
+                SubClasses.Add(new XmlSubClassMapping(discriminatorColumn, xSubSubClass));
             }
         }
 
@@ -64,7 +72,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
     sealed class XmlSubClassJoin : ISubClassJoin
     {
-        public XmlSubClassJoin(XNamespace xNamespace, XElement xSubClassJoin)
+        public XmlSubClassJoin(XElement xSubClassJoin)
         {
             XAttribute xSchema;
             if (xSubClassJoin.TryGetAttribute("schema", out xSchema))
@@ -72,10 +80,14 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xSubClassJoin.Attribute("table").Value;
+            XAttribute xTable;
+            if (!xSubClassJoin.TryGetAttribute("table", out xTable))
+                throw new DocumentParseException("Cannot find table at table subclass join mapping");
+
+            Table = xSubClassJoin.Attribute("table").Value;
 
             ColumnJoins = new List<ISubClassJoinColumn>();
-            foreach (var xColumn in xSubClassJoin.Elements(xNamespace + "column"))
+            foreach (var xColumn in xSubClassJoin.Elements(XmlTableMapping.XNamespace + "column"))
             {
                 ColumnJoins.Add(new XmlSubClassJoinColumn(xColumn));
             }
@@ -83,7 +95,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
         public string Schema { get; private set; }
 
-        public string Name { get; private set; }
+        public string Table { get; private set; }
 
         public IList<ISubClassJoinColumn> ColumnJoins { get; private set; }
     }
@@ -92,7 +104,11 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
     {
         public XmlSubClassJoinColumn(XElement xSubClassJoinColumn)
         {
-            Name = xSubClassJoinColumn.Attribute("name").Value;
+            XAttribute xName;
+            if (!xSubClassJoinColumn.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at table subclass join column mapping");
+
+            Name = xName.Value;
 
             XAttribute xJoinSchema;
             if (xSubClassJoinColumn.TryGetAttribute("join-schema", out xJoinSchema))
@@ -106,7 +122,11 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 JoinTable = xJoinTable.Value;
             }
 
-            JoinColumn = xSubClassJoinColumn.Attribute("join-column").Value;
+            XAttribute xJoinColumn;
+            if (!xSubClassJoinColumn.TryGetAttribute("join-column", out xJoinColumn))
+                throw new DocumentParseException("Cannot find join-column at table subclass join column mapping");
+
+            JoinColumn = xJoinColumn.Value;
         }
 
         public string Name { get; private set; }

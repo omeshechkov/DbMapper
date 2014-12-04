@@ -40,7 +40,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in xView.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(this, XNamespace, xSubClass));
+                //TODO - Wrong Subclass Mapping SubClasses.Add(new XmlSubClassMapping(this, xSubClass));
             }
 
             XAttribute xDiscriminatorValue;

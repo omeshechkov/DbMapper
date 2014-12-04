@@ -13,7 +13,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
     class TableVersionPropertyMappingUnitTest
     {
         [Test]
-        public void NoVersionPropertyName()
+        public void NoName()
         {
             var xml = XElement.Parse("<version column='version' />");
 
@@ -22,7 +22,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoVersionColumn()
+        public void NoColumn()
         {
             var xml = XElement.Parse("<version name='Version' />");
 
@@ -31,7 +31,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckVersionColumnName()
+        public void CheckColumn()
         {
             var xml = XElement.Parse("<version name='Version' column='version' />");
 
@@ -40,7 +40,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoVersionConverter()
+        public void NoConverter()
         {
             var xml = XElement.Parse("<version name='Version' column='version' />");
 
@@ -49,7 +49,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckVersionConverter()
+        public void CheckConverter()
         {
             var xml = XElement.Parse(string.Format("<version name='Version' column='version' converter='{0}' />", typeof(YesNoConverter).AssemblyQualifiedName));
 
@@ -58,7 +58,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckVersionPrivateFieldReference()
+        public void CheckPrivateFieldReference()
         {
             var xml = XElement.Parse("<version name='_id' column='id' />");
             var mapping = new XmlVersionProperty(typeof(Shape), xml);
@@ -67,7 +67,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
          [Test]
-         public void CheckVersionPrivatePropertyReference()
+         public void CheckPrivatePropertyReference()
          {
              var xml = XElement.Parse("<version name='Version' column='version' />");
              var mapping = new XmlVersionProperty(typeof(Shape), xml);
@@ -76,7 +76,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
          }
 
         [Test]
-        public void CheckVersionPublicFieldReference()
+        public void CheckPublicFieldReference()
         {
             var xml = XElement.Parse("<version name='_version' column='version' />");
             var mapping = new XmlVersionProperty(typeof(Shape), xml);
@@ -85,7 +85,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckVersionPublicPropertyReference()
+        public void CheckPublicPropertyReference()
         {
             var xml = XElement.Parse("<version name='Id' column='id' />");
             var mapping = new XmlVersionProperty(typeof(Shape), xml);

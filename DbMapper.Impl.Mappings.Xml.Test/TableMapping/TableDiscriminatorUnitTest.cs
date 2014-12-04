@@ -9,7 +9,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
     class TableDiscriminatorUnitTest
     {
         [Test]
-        public void NoDiscriminatorColumn()
+        public void NoColumn()
         {
             var xml = XElement.Parse("<discriminator type='long' />");
 
@@ -18,7 +18,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoDiscriminatorColumnType()
+        public void NoType()
         {
             var xml = XElement.Parse("<discriminator column='type' />");
 
@@ -27,7 +27,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void WrongDiscriminatorColumnType()
+        public void WrongType()
         {
             var xml = XElement.Parse("<discriminator column='type' type='UnknownType' />");
 
@@ -36,7 +36,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckDiscriminatorColumnName()
+        public void CheckColumn()
         {
             var xml = XElement.Parse("<discriminator column='type' type='long' />");
 
@@ -45,7 +45,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckDiscriminatorColumnType()
+        public void CheckType()
         {
             var xml = XElement.Parse("<discriminator column='type' type='string' />");
 

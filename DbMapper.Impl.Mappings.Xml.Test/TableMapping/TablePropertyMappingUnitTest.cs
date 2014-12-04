@@ -15,7 +15,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
     class TablePropertyMappingUnitTest
     {
         [Test]
-        public void NoPropertyName()
+        public void NoName()
         {
             var xml = XElement.Parse("<property column='id' />");
 
@@ -24,7 +24,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPropertyColumn()
+        public void NoColumn()
         {
             var xml = XElement.Parse("<property name='Id' />");
 
@@ -33,7 +33,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPropertyInsert()
+        public void NoInsert()
         {
             var xml = XElement.Parse("<property name='Id' column='id' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -41,7 +41,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPropertyUpdate()
+        public void NoUpdate()
         {
             var xml = XElement.Parse("<property name='Id' column='id' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -49,7 +49,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPropertyConverter()
+        public void NoConverter()
         {
             var xml = XElement.Parse("<property name='Id' column='id' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -57,7 +57,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPropertyGenerator()
+        public void NoGenerator()
         {
             var xml = XElement.Parse("<property name='Id' column='id' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -65,7 +65,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyInsertTrue()
+        public void CheckInsertTrue()
         {
             var xml = XElement.Parse("<property name='Id' column='id' insert='true' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -73,7 +73,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyInsertFalse()
+        public void CheckInsertFalse()
         {
             var xml = XElement.Parse("<property name='Id' column='id' insert='false'/>");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -81,7 +81,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyInsertTrue1()
+        public void CheckInsert1()
         {
             var xml = XElement.Parse("<property name='Id' column='id' insert='1' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -89,14 +89,14 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyInsertFalse0()
+        public void CheckInsert0()
         {
             var xml = XElement.Parse("<property name='Id' column='id' insert='0'/>");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
             Assert.IsFalse(mapping.Insert);
         }
         [Test]
-        public void CheckPropertyUpdateTrue()
+        public void CheckUpdateTrue()
         {
             var xml = XElement.Parse("<property name='Id' column='id' update='true' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -104,7 +104,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyUpdateFalse()
+        public void CheckUpdateFalse()
         {
             var xml = XElement.Parse("<property name='Id' column='id' update='false'/>");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -112,7 +112,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyUpdateTrue1()
+        public void CheckUpdate1()
         {
             var xml = XElement.Parse("<property name='Id' column='id' update='1' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -120,7 +120,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyUpdateFalse0()
+        public void CheckUpdate0()
         {
             var xml = XElement.Parse("<property name='Id' column='id' update='0'/>");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -128,7 +128,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyPublicFieldReference()
+        public void CheckPublicFieldReference()
         {
             var xml = XElement.Parse("<property name='_version' column='version' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -137,7 +137,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyPrivateFieldReference()
+        public void CheckPrivateFieldReference()
         {
             var xml = XElement.Parse("<property name='_id' column='id' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -146,7 +146,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyPublicPropertyReference()
+        public void CheckPublicPropertyReference()
         {
             var xml = XElement.Parse("<property name='Id' column='version' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -155,7 +155,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyPrivatePropertyReference()
+        public void CheckPrivatePropertyReference()
         {
             var xml = XElement.Parse("<property name='Version' column='version' />");
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -165,7 +165,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
 
 
         [Test]
-        public void CheckPropertyConverter()
+        public void CheckConverter()
         {
             var xml = XElement.Parse(string.Format("<property name='Version' column='version' converter='{0}' />", typeof(YesNoConverter).AssemblyQualifiedName));
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
@@ -173,7 +173,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyPseudoConverter()
+        public void CheckPseudoConverter()
         {
             var pseudoConverterType = typeof(PseudoConverter).AssemblyQualifiedName;
             var iConverterType = typeof(IConverter).AssemblyQualifiedName;
@@ -184,7 +184,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyWrongConverter()
+        public void CheckWrongConverter()
         {
             var xml = XElement.Parse("<property name='Version' column='version' converter='WrongConverter' />");
             var ex = Assert.Throws<DocumentParseException>(() => new XmlTablePropertyMapping(typeof(Shape), xml));
@@ -192,7 +192,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyEmptyGenerator()
+        public void CheckEmptyGenerator()
         {
             var xml = XElement.Parse(@"
 <property xmlns='urn:dbm-table-mapping' name='Version' column='version'>
@@ -204,7 +204,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertyGenerator()
+        public void CheckGenerator()
         {
             var xml = XElement.Parse(@"
 <property xmlns='urn:dbm-table-mapping' name='Version' column='version'>

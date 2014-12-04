@@ -406,7 +406,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
             var document = GetMappingDocument("Subclass.CheckJoinAttributes.xml");
             var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
-            var tableName = subClassMapping.Join.Name;
+            var tableName = subClassMapping.Join.Table;
             Assert.AreEqual("rectangles", tableName);
         }
 

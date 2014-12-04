@@ -26,7 +26,7 @@ namespace DbMapper.Mappings
 
     public interface ISubClassJoin 
     {
-        string Name { get; }
+        string Table { get; }
 
         string Schema { get; }
 

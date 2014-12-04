@@ -9,7 +9,6 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
     [TestFixture]
     class TablePropertyGeneratorFactoryUnitTest
     {
-
         [Test]
         public void CheckWrongGenerator()
         {
@@ -19,7 +18,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckPropertySequenceGenerator()
+        public void CheckSequenceGeneratorName()
         {
             var xml = XElement.Parse("<sequence xmlns='urn:dbm-table-mapping' name='seq_shapes' />");
             var generator = GeneratorFactory.GetGenerator(xml);
