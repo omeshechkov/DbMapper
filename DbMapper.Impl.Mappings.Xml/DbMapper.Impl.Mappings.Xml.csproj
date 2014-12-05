@@ -53,9 +53,11 @@
     <Compile Include="Exceptions\ParseValueException.cs" />
     <Compile Include="Exceptions\ParseTypeException.cs" />
     <Compile Include="Factories\MappingFactory.cs" />
+    <Compile Include="Mappings\XmlSubClassJoin.cs" />
+    <Compile Include="Mappings\XmlViewSubClassMapping.cs" />
     <Compile Include="Mappings\XmlViewPropertyMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mappings\XmlSubClassMapping.cs" />
+    <Compile Include="Mappings\XmlTableSubClassMapping.cs" />
     <Compile Include="Factories\GeneratorFactory.cs" />
     <Compile Include="Factories\ConverterFactory.cs" />
     <Compile Include="Utils\TypeUtils.cs" />

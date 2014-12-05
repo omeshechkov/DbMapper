@@ -61,7 +61,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in xTable.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(Discriminator, xSubClass));
+                SubClasses.Add(new XmlTableSubClassMapping(Discriminator, xSubClass));
             }
 
             XAttribute xDiscriminatorValue;

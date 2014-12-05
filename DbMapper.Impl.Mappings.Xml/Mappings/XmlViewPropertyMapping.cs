@@ -11,19 +11,27 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlViewPropertyMapping : IViewPropertyMapping
     {
-        public XmlViewPropertyMapping(Type classType, XElement xTableProperty)
+        public XmlViewPropertyMapping(Type classType, XElement xViewProperty)
         {
-            Name = xTableProperty.Attribute("column").Value;
+            XAttribute xColumn;
+            if (!xViewProperty.TryGetAttribute("column", out xColumn))
+                throw new DocumentParseException("Cannot find column at view property mapping");
 
-            var name = xTableProperty.Attribute("name").Value;
+            Name = xColumn.Value;
+
+            XAttribute xName;
+            if (!xViewProperty.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at view property mapping");
+
+            var name = xName.Value;
 
             Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", name);
+                throw new DocumentParseException("Canot find member '{0}' of type '{1}'", name, classType.AssemblyQualifiedName);
 
             XAttribute xConverter;
-            if (xTableProperty.TryGetAttribute("converter", out xConverter))
+            if (xViewProperty.TryGetAttribute("converter", out xConverter))
             {
                 Converter = ConverterFactory.Create(xConverter.Value);
             }

@@ -1,5 +1,0 @@
-﻿<view-mapping xmlns="urn:dbm-view-mapping">
-  <view schema="test_dbm" name="shapes" class="DbMapper.Impl.Mappings.Xml.Test.ViewMapping.Model.Shape, DbMapper.Impl.Mappings.Xml.Test">
-    <property column="id" />
-  </view>
-</view-mapping>

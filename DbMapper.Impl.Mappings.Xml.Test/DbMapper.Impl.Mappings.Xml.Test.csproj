@@ -60,17 +60,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableMapping\Model\PrimaryKeyMemberReference.cs" />
     <Compile Include="TableMapping\Model\Shape.cs" />
-    <Compile Include="TableMapping\TableDiscriminatorUnitTest.cs" />
-    <Compile Include="TableMapping\TableSubclassJoinColumnMappingUnitTest.cs" />
+    <Compile Include="DiscriminatorUnitTest.cs" />
+    <Compile Include="SubclassJoinColumnMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableSubclassJoinMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableVersionPropertyMappingUnitTest.cs" />
     <Compile Include="TableMapping\TablePropertyGeneratorFactoryUnitTest.cs" />
     <Compile Include="TableMapping\TablePropertyMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableSubclassMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableMappingUnitTest.cs" />
+    <Compile Include="SubclassJoinMappingUnitTest.cs" />
     <Compile Include="ViewMapping\Model\PropertyMemberReference.cs" />
     <Compile Include="ViewMapping\Model\Shape.cs" />
     <Compile Include="ViewMapping\Model\VersionMemberReference.cs" />
+    <Compile Include="ViewMapping\ViewSubclassMappingUnitTest.cs" />
+    <Compile Include="ViewMapping\ViewPropertyMappingUnitTest.cs" />
     <Compile Include="ViewMapping\ViewMappingUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,147 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Discriminator\CheckDiscriminatorColumnAttributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\CheckClassAttributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\CheckDiscriminatorLongValue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\CheckDiscriminatorStringValue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\DiscriminatorValueWithoutColumn.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\NoViewClass.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\NoProperties.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\NoSchema.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\NoViewName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\View\WrongDiscriminatorValueType.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Discriminator\NoDiscriminatorColumnName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Discriminator\NoDiscriminatorColumnType.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Discriminator\WrongDiscriminatorColumnType.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyConverter.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyConverterShorthand.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyNoGetterPropertyReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyNoSetterPropertyReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyOptionalAttributes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyPrivateFieldReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyPrivatePropertyReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyPseudoConverter.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyPublicFieldReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyPublicPropertyReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyStaticFieldReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyStaticPropertyReference.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\CheckPropertyWrongConverter.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\NoPropertyColumn.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Property\NoPropertyName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckDiscriminatorLongValue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckDiscriminatorStringValue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckEmptyJoin.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckJoinAttributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckJoinColumnAttributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckJoinNoColumnJoinColumn.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckJoinNoColumnJoinSchema.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckJoinNoColumnJoinTable.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckJoinNoColumnName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckNoJoinSchema.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckNoJoinTable.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckSubclassName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckSubclassProperties.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\CheckSubclassSubclass.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\DiscriminatorValueWithoutColumn.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\NoSubclassName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ViewMapping\Resources\Subclass\WrongDiscriminatorValueType.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -9,11 +9,16 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlViewMapping : IViewMapping
     {
-        private static readonly XNamespace XNamespace = "urn:dbm-view-mapping";
+        public static readonly XNamespace XNamespace = "urn:dbm-view-mapping";
 
-        public XmlViewMapping(XContainer xMapping)
+        public XmlViewMapping(XElement xMapping)
         {
-            var xView = xMapping.Element(XNamespace + "view");
+            if (xMapping == null)
+                throw new DocumentParseException("Cannot build view mapping", new ArgumentNullException("xMapping"));
+
+            XElement xView;
+            if (!xMapping.TryGetElement(XNamespace + "view", out xView))
+                throw new DocumentParseException("Cannot find view at view mapping");
 
             XAttribute xSchema;
             if (xView.TryGetAttribute("schema", out xSchema))
@@ -21,9 +26,24 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 Schema = xSchema.Value;
             }
 
-            Name = xView.Attribute("name").Value;
+            XAttribute xName;
+            if (!xView.TryGetAttribute("name", out xName))
+                throw new DocumentParseException("Cannot find name at view mapping");
 
-            Type = xView.Attribute("class").GetValueAsType();
+            Name = xName.Value;
+
+            XAttribute xClass;
+            if (!xView.TryGetAttribute("class", out xClass))
+                throw new DocumentParseException("Cannot find class at view mapping");
+
+            try
+            {
+                Type = xClass.GetValueAsType();
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at view mapping", xClass.Value), ex);
+            }
 
             Properties = new List<IPropertyMapping>();
             foreach (var xProperty in xView.Elements(XNamespace + "property"))
@@ -40,7 +60,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in xView.Elements(XNamespace + "subclass"))
             {
-                //TODO - Wrong Subclass Mapping SubClasses.Add(new XmlSubClassMapping(this, xSubClass));
+                SubClasses.Add(new XmlViewSubClassMapping(Discriminator, xSubClass));
             }
 
             XAttribute xDiscriminatorValue;
@@ -55,7 +75,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 }
                 catch (Exception ex)
                 {
-                    throw new DocumentParseException(string.Format("Cannot parse view discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type), ex);
+                    throw new DocumentParseException(string.Format("Cannot parse view discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type.AssemblyQualifiedName), ex);
                 }
             }
         }

@@ -3,10 +3,10 @@ using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Mappings;
 using NUnit.Framework;
 
-namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
+namespace DbMapper.Impl.Mappings.Xml.Test
 {
     [TestFixture]
-    class TableDiscriminatorUnitTest
+    class DiscriminatorUnitTest
     {
         [Test]
         public void NoColumn()

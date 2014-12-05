@@ -3,10 +3,10 @@ using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Mappings;
 using NUnit.Framework;
 
-namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
+namespace DbMapper.Impl.Mappings.Xml.Test
 {
     [TestFixture]
-    class TableSubclassJoinColumnMappingUnitTest
+    class SubclassJoinColumnMappingUnitTest
     {
         [Test]
         public void NoName()
@@ -14,7 +14,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
             var xml = XElement.Parse("<column join-schema='test_dbm' join-table='shapes' join-column='id' />");
 
             var ex = Assert.Throws<DocumentParseException>(() => new XmlSubClassJoinColumn(xml));
-            Assert.AreEqual("Cannot find name at table subclass join column mapping", ex.Message);
+            Assert.AreEqual("Cannot find name at subclass join column mapping", ex.Message);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
             var xml = XElement.Parse("<column name='rectangle_id' join-schema='test_dbm' join-table='shapes' />");
 
             var ex = Assert.Throws<DocumentParseException>(() => new XmlSubClassJoinColumn(xml));
-            Assert.AreEqual("Cannot find join-column at table subclass join column mapping", ex.Message);
+            Assert.AreEqual("Cannot find join-column at subclass join column mapping", ex.Message);
         }
 
         [Test]

@@ -299,6 +299,8 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
 
             var mapping = new XmlTableMapping(xml);
             Assert.AreEqual(2L, mapping.Properties.Count);
+            Assert.IsInstanceOf<XmlTablePropertyMapping>(mapping.Properties[0]);
+            Assert.IsInstanceOf<XmlTablePropertyMapping>(mapping.Properties[1]);
         }
         
         [Test]

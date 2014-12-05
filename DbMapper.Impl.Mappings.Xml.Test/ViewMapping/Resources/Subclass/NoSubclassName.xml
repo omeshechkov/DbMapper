@@ -1,9 +1,0 @@
-﻿<view-mapping xmlns="urn:dbm-view-mapping">
-  <view schema="test_dbm" name="shapes" class="DbMapper.Impl.Mappings.Xml.Test.ViewMapping.Model.Shape, DbMapper.Impl.Mappings.Xml.Test">
-    <discriminator column="type" type="long"/>
-    
-    <property name="Id" column="id" />
-
-    <subclass />
-  </view>
-</view-mapping>
