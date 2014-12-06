@@ -54,6 +54,7 @@
     <Compile Include="Exceptions\ParseTypeException.cs" />
     <Compile Include="Factories\MappingFactory.cs" />
     <Compile Include="Mappings\XmlSubClassJoin.cs" />
+    <Compile Include="Mappings\XmlExtendTableMapping.cs" />
     <Compile Include="Mappings\XmlViewSubClassMapping.cs" />
     <Compile Include="Mappings\XmlViewPropertyMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +82,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="XSD\TableMapping.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\ExtendTableMapping.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\ExtendViewMapping.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

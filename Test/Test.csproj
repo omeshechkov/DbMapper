@@ -70,6 +70,10 @@
     <EmbeddedResource Include="BM\Oracle\Func.xml" />
     <Content Include="BM\Oracle\ObjectTable.xml" />
     <Content Include="BM\Oracle\Object.xml" />
+    <EmbeddedResource Include="BM\ExtendTable.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="BM\ExtendView.xml" />
     <Content Include="BM\View.xml" />
     <EmbeddedResource Include="BM\Table.xml">
       <SubType>Designer</SubType>

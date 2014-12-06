@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<extend-table-mapping xmlns="urn:dbm-extend-table-mapping">
+  <extend-table class="event">
+    <discriminator column="type" type="long"/>
+    
+    <subclass name="RegularEvent" discriminator-value="1">
+      <join table="regular_event">
+        <column name="event_id" join-table="event" join-column="id" />
+        <column name="event_time_and_zone" join-table="event" join-column="creation_time_and_zone" />
+      </join>
+
+      <property name="StringValue" column="value" />
+    </subclass>
+
+    <subclass name="LotteryEvent" discriminator-value="2">
+      <join schema="bigbet" table="lottery_event">
+        <column name="event_id" join-schema="bigbet" join-table="event" join-column="id" />
+        <column name="event_time_and_zone" join-schema="bigbet" join-table="event" join-column="creation_time_and_zone" />
+      </join>
+
+      <property name="StringValue" column="value" />
+    </subclass>
+  </extend-table>
+</extend-table-mapping>

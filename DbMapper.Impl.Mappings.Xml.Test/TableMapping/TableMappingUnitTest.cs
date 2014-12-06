@@ -316,7 +316,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
 </table-mapping>", typeof(Shape).AssemblyQualifiedName));
 
             var mapping = new XmlTableMapping(xml);
-            Assert.IsInstanceOf<XmlVersionProperty>(mapping.VersionProperty);
+            Assert.IsInstanceOf<XmlVersionPropertyMapping>(mapping.Version);
         }
         
         [Test]

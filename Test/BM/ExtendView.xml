@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<extend-view-mapping xmlns="urn:dbm-extend-view-mapping">
+  <extend-view class="SomeView">
+    <discriminator column="type" type="long"/>
+    
+    <subclass name="class" discriminator-value="123" /> 
+  </extend-view>
+</extend-view-mapping>

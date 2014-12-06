@@ -9,9 +9,9 @@ using DbMapper.Mappings;
 
 namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
-    sealed class XmlVersionProperty : IVersionProperty
+    sealed class XmlVersionPropertyMapping : IVersionPropertyMapping
     {
-        public XmlVersionProperty(Type classType, XElement xVersion)
+        public XmlVersionPropertyMapping(Type classType, XElement xVersion)
         {
             XAttribute xColumn;
             if (!xVersion.TryGetAttribute("column", out xColumn))

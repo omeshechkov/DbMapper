@@ -16,7 +16,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         private static readonly MethodInfo SuperFuncMethodInfo = typeof(DatabaseFacade.SuperFunc).GetMethod("Invoke");
 
         [Test]
-        public void NoParameterName()
+        public void NoName()
         {
             var xml = XElement.Parse("<parameter db-name='val' />");
 
@@ -25,7 +25,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void NoParameterDbName()
+        public void NoDbName()
         {
             var xml = XElement.Parse("<parameter name='val' />");
 
@@ -34,7 +34,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void WrongParameterName()
+        public void WrongName()
         {
             var xml = XElement.Parse("<parameter name='Val' db-name='val' />");
 
@@ -43,7 +43,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void CheckParameterName()
+        public void CheckName()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' />");
 
@@ -53,7 +53,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void CheckParameterDbName()
+        public void CheckDbName()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' />");
 
@@ -62,7 +62,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void NoParameterConverter()
+        public void NoConverter()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' />");
 
@@ -71,7 +71,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void CheckParameterConverter()
+        public void CheckConverter()
         {
             var xml = XElement.Parse(string.Format("<parameter name='val' db-name='val' converter='{0}' />", typeof(YesNoConverter).AssemblyQualifiedName));
 
@@ -80,18 +80,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void CheckParameterPseudoConverter()
-        {
-            var pseudoConverterType = typeof(PseudoConverter).AssemblyQualifiedName;
-            var iConverterType = typeof(IConverter).AssemblyQualifiedName;
-            var xml = XElement.Parse(string.Format("<parameter name='val' db-name='val' converter='{0}' />", pseudoConverterType));
-
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlParameterMapping(SuperFuncMethodInfo, xml));
-            Assert.AreEqual(string.Format("Illegal converter class '{0}', class must be inherited from '{1}'", pseudoConverterType, iConverterType), ex.Message);
-        }
-
-        [Test]
-        public void NoParameterDbType()
+        public void NoDbType()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' />");
 
@@ -100,7 +89,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void CheckParameterDbType()
+        public void CheckDbType()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' db-type='Int64' />");
 
@@ -109,7 +98,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }        
         
         [Test]
-        public void NoParameterLength()
+        public void NoLength()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' />");
 
@@ -118,7 +107,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test
         }
 
         [Test]
-        public void CheckParameterLength()
+        public void CheckLength()
         {
             var xml = XElement.Parse("<parameter name='val' db-name='val' length='123' />");
 

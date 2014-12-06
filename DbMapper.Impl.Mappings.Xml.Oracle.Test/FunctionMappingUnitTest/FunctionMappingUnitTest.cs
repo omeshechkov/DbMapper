@@ -18,7 +18,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }
 
         [Test]
-        public void NoFunctionMapping()
+        public void NoMapping()
         {
             var xml = XElement.Parse("<function-mapping xmlns='urn:dbm-oracle-function-mapping' />");
 
@@ -27,7 +27,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }
 
         [Test]
-        public void NoFunctionSchema()
+        public void NoSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -41,7 +41,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }  
         
         [Test]
-        public void NoFunctionName()
+        public void NoName()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -55,7 +55,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }       
 
         [Test]
-        public void NoFunctionDelegate()
+        public void NoDelegate()
         {
             var xml = XElement.Parse(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -69,7 +69,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }       
 
         [Test]
-        public void CheckFunctionSchema()
+        public void CheckSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -83,7 +83,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }
         
         [Test]
-        public void CheckFunctionName()
+        public void CheckName()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -97,7 +97,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }
 
         [Test]
-        public void CheckFunctionDelegate()
+        public void CheckDelegate()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -112,7 +112,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         }
         
         [Test]
-        public void CheckFunctionNoParameters()
+        public void NoParameters()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -126,7 +126,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         } 
         
         [Test]
-        public void CheckFunctionParameters()
+        public void CheckParameters()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -141,10 +141,12 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
 
             var mapping = new XmlFunctionMapping(xml);
             Assert.AreEqual(2, mapping.Parameters.Count);
+            Assert.IsInstanceOf<XmlParameterMapping>(mapping.Parameters[0]);
+            Assert.IsInstanceOf<XmlParameterMapping>(mapping.Parameters[1]);
         }
 
         [Test]
-        public void CheckFunctionReturnValue()
+        public void CheckReturnValue()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>
@@ -158,7 +160,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.FunctionMappingUnitTest
         } 
         
         [Test]
-        public void CheckFunctionNoReturnValue()
+        public void NoReturnValue()
         {
             var xml = XElement.Parse(string.Format(@"
 <function-mapping xmlns='urn:dbm-oracle-function-mapping'>

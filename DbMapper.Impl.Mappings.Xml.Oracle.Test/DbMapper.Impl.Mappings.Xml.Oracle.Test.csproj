@@ -56,14 +56,13 @@
     <Compile Include="DatabaseFacade.cs" />
     <Compile Include="ParameterMappingUnitTest.cs" />
     <Compile Include="FunctionMappingUnitTest\FunctionMappingUnitTest.cs" />
-    <Compile Include="ObjectMappingUnitTest\PropertyUnitTest.cs" />
+    <Compile Include="ObjectMappingUnitTest\ObjectPropertyUnitTest.cs" />
     <Compile Include="ObjectMappingUnitTest\ObjectMappingUnitTest.cs" />
     <Compile Include="ObjectMappingUnitTest\Shape.cs" />
     <Compile Include="ObjectTableMappingUnitTest\ObjectTableUnitTest.cs" />
     <Compile Include="ObjectTableMappingUnitTest\Shape.cs" />
     <Compile Include="ObjectTableMappingUnitTest\Shapes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PseudoConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

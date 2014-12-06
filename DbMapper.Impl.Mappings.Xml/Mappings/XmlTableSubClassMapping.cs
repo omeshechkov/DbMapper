@@ -9,7 +9,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlTableSubClassMapping : ISubClassMapping
     {
-        public XmlTableSubClassMapping(IDiscriminatorColumn discriminatorColumn, XElement xSubClass)
+        public XmlTableSubClassMapping(IDiscriminatorColumnMapping discriminatorColumn, XElement xSubClass)
         {
             XAttribute xName;
             if (!xSubClass.TryGetAttribute("name", out xName))

@@ -1,5 +1,7 @@
 ﻿using DbMapper.Converters;
+using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Factories;
+using DbMapper.Impl.Mappings.Xml.Test.Converters;
 using NUnit.Framework;
 
 namespace DbMapper.Impl.Mappings.Xml.Test
@@ -10,32 +12,36 @@ namespace DbMapper.Impl.Mappings.Xml.Test
         [TestFixtureSetUp]
         public void Setup()
         {
-            //Register shorthands
-            new XmlMappingBuilder();
+            ConverterFactory.RegisterShorthand<YesNoConverter>("YN");
         }
 
         [Test]
-        public void ResolveShorthandYesNo()
+        public void ResolveShorthand()
         {
-            Assert.AreEqual(ConverterFactory.Create("YN").GetType(), typeof(YesNoConverter));
+            Assert.IsInstanceOf<YesNoConverter>(ConverterFactory.Create("YN"));
         }
 
         [Test]
-        public void ResolveShorthandLowerYesNo()
+        public void ResolveYesNoConverter()
         {
-            Assert.AreEqual(ConverterFactory.Create("yn").GetType(), typeof(LowerYesNoConverter));
+            Assert.IsInstanceOf<YesNoConverter>(ConverterFactory.Create(typeof(YesNoConverter).AssemblyQualifiedName));
         }
 
         [Test]
-        public void ResolveShorthandTrueFalse()
+        public void CheckWrongConverter()
         {
-            Assert.AreEqual(ConverterFactory.Create("TF").GetType(), typeof(TrueFalseConverter));
+            var ex = Assert.Throws<DocumentParseException>(() => ConverterFactory.Create("WrongConverter"));
+            Assert.AreEqual("Cannot parse converter type, unrecognized class 'WrongConverter'", ex.Message);
         }
 
         [Test]
-        public void ResolveShorthandLowerTrueFalse()
+        public void CheckPseudoConverter()
         {
-            Assert.AreEqual(ConverterFactory.Create("tf").GetType(), typeof(LowerTrueFalseConverter));
+            var pseudoConverterType = typeof(PseudoConverter).AssemblyQualifiedName;
+            var iConverterType = typeof(IConverter).AssemblyQualifiedName;
+
+            var ex = Assert.Throws<DocumentParseException>(() => ConverterFactory.Create(pseudoConverterType));
+            Assert.AreEqual(string.Format("Illegal converter class '{0}', class must be inherited from '{1}'", pseudoConverterType, iConverterType), ex.Message);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test
         {
             var xml = XElement.Parse("<discriminator type='long' />");
 
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlDiscriminatorColumn(xml));
+            var ex = Assert.Throws<DocumentParseException>(() => new XmlDiscriminatorColumnMapping(xml));
             Assert.AreEqual("Cannot find column at discriminator", ex.Message);
         }
 
@@ -22,7 +22,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test
         {
             var xml = XElement.Parse("<discriminator column='type' />");
 
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlDiscriminatorColumn(xml));
+            var ex = Assert.Throws<DocumentParseException>(() => new XmlDiscriminatorColumnMapping(xml));
             Assert.AreEqual("Cannot find type at discriminator", ex.Message);
         }
 
@@ -31,7 +31,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test
         {
             var xml = XElement.Parse("<discriminator column='type' type='UnknownType' />");
 
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlDiscriminatorColumn(xml));
+            var ex = Assert.Throws<DocumentParseException>(() => new XmlDiscriminatorColumnMapping(xml));
             Assert.AreEqual("Cannot recognize discriminator type 'UnknownType'", ex.Message);
         }
 
@@ -40,7 +40,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test
         {
             var xml = XElement.Parse("<discriminator column='type' type='long' />");
 
-            var discriminator = new XmlDiscriminatorColumn(xml);
+            var discriminator = new XmlDiscriminatorColumnMapping(xml);
             Assert.AreEqual("type", discriminator.Column);
         }
 
@@ -49,7 +49,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test
         {
             var xml = XElement.Parse("<discriminator column='type' type='string' />");
 
-            var discriminator = new XmlDiscriminatorColumn(xml);
+            var discriminator = new XmlDiscriminatorColumnMapping(xml);
             Assert.AreEqual(typeof(string), discriminator.Type);
         }
     }

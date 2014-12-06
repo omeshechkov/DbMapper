@@ -2,24 +2,12 @@
 
 namespace DbMapper.Mappings
 {
-    public interface ITableMapping : ITableViewMapping, IHasVersion, IHasPrimaryKey { }
-
-    public interface ITablePropertyMapping : IPropertyMapping, IHasGenerator
+    public interface ITableMapping : ITableViewMapping
     {
-        bool Insert { get; }
-        
-        bool Update { get; }
-    }
+        IDiscriminatorColumnMapping Discriminator { get; }
 
-    public interface IHasPrimaryKey
-    {
+        IVersionPropertyMapping Version { get; }
+
         IList<IPropertyMapping> PrimaryKeyProperties { get; }
     }
-
-    public interface IHasVersion
-    {
-        IVersionProperty VersionProperty { get; }
-    }
-
-    public interface IVersionProperty : IPropertyMapping { }
 }

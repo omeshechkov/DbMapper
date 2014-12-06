@@ -18,7 +18,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void NoObjectMapping()
+        public void NoMapping()
         {
             var xml = XElement.Parse("<object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping' />");
 
@@ -27,7 +27,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void NoObjectTableSchema()
+        public void NoSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -40,7 +40,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
         
         [Test]
-        public void NoObjectTableName()
+        public void NoName()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -53,7 +53,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void NoObjectTableClass()
+        public void NoClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -66,7 +66,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void WrongObjectTableClass()
+        public void WrongClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -79,7 +79,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
         
         [Test]
-        public void CheckObjectTableClass()
+        public void CheckClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -92,7 +92,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void NoObjectTableObjectClass()
+        public void NoObjectClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -105,7 +105,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void WrongObjectTableObjectClass()
+        public void WrongObjectClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -118,7 +118,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
         
         [Test]
-        public void CheckObjectTableObjectClass()
+        public void CheckObjectClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>
@@ -131,7 +131,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectTableMappingUnitTest
         }
 
         [Test]
-        public void CheckObjectSchema()
+        public void CheckSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-table-mapping xmlns='urn:dbm-oracle-object-table-mapping'>

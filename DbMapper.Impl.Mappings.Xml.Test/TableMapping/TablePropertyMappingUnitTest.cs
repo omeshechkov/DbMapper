@@ -57,6 +57,14 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
+        public void CheckConverter()
+        {
+            var xml = XElement.Parse(string.Format("<property name='Version' column='version' converter='{0}' />", typeof(YesNoConverter).AssemblyQualifiedName));
+            var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
+            Assert.IsInstanceOf<YesNoConverter>(mapping.Converter);
+        }
+
+        [Test]
         public void NoGenerator()
         {
             var xml = XElement.Parse("<property name='Id' column='id' />");
@@ -161,34 +169,6 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
             var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
             var fieldInfo = typeof(Shape).GetMember("Version", BindingFlags.Instance | BindingFlags.NonPublic).First();
             Assert.AreEqual(fieldInfo, mapping.Member);
-        }
-
-
-        [Test]
-        public void CheckConverter()
-        {
-            var xml = XElement.Parse(string.Format("<property name='Version' column='version' converter='{0}' />", typeof(YesNoConverter).AssemblyQualifiedName));
-            var mapping = new XmlTablePropertyMapping(typeof(Shape), xml);
-            Assert.IsInstanceOf<YesNoConverter>(mapping.Converter);
-        }
-
-        [Test]
-        public void CheckPseudoConverter()
-        {
-            var pseudoConverterType = typeof(PseudoConverter).AssemblyQualifiedName;
-            var iConverterType = typeof(IConverter).AssemblyQualifiedName;
-
-            var xml = XElement.Parse(string.Format("<property name='Version' column='version' converter='{0}' />", pseudoConverterType));
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlTablePropertyMapping(typeof(Shape), xml));
-            Assert.AreEqual(string.Format("Illegal converter class '{0}', class must be inherited from '{1}'", pseudoConverterType, iConverterType), ex.Message);
-        }
-
-        [Test]
-        public void CheckWrongConverter()
-        {
-            var xml = XElement.Parse("<property name='Version' column='version' converter='WrongConverter' />");
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlTablePropertyMapping(typeof(Shape), xml));
-            Assert.AreEqual("Cannot parse converter type, unrecognized class 'WrongConverter'", ex.Message);
         }
 
         [Test]

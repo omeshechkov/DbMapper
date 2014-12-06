@@ -8,14 +8,14 @@ using DbMapper.Mappings;
 
 namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
-    sealed class XmlTableMapping : ITableMapping
+    sealed class XmlExtendTableMapping : IExtendTableMapping
     {
-        internal static readonly XNamespace XNamespace = "urn:dbm-table-mapping";
+        internal static readonly XNamespace XNamespace = "urn:dbm-extend-table-mapping";
 
-        public XmlTableMapping(XElement xMapping)
+        public XmlExtendTableMapping(XElement xMapping)
         {
             if (xMapping == null)
-                throw new DocumentParseException("Cannot build table mapping", new ArgumentNullException("xMapping"));
+                throw new DocumentParseException("Cannot build extend-table mapping", new ArgumentNullException("xMapping"));
 
             XElement xTable;
             if (!xMapping.TryGetElement(XNamespace + "table", out xTable))
@@ -110,22 +110,10 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
         }
 
-        public string Name { get; private set; }
-
-        public string Schema { get; private set; }
-
         public Type Type { get; private set; }
-
-        public IList<IPropertyMapping> Properties { get; private set; }
 
         public IDiscriminatorColumnMapping Discriminator { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
-
-        public object DiscriminatorValue { get; private set; }
-
-        public IVersionPropertyMapping Version { get; private set; }
-
-        public IList<IPropertyMapping> PrimaryKeyProperties { get; private set; }
     }
 }

@@ -9,10 +9,10 @@ using NUnit.Framework;
 namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
 {
     [TestFixture]
-    public class PropertyUnitTest
+    public class ObjectPropertyUnitTest
     {
         [Test]
-        public void NoPropertyAttribute()
+        public void NoAttribute()
         {
             var xml = XElement.Parse("<property name='X' />");
 
@@ -21,7 +21,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void NoPropertyName()
+        public void NoName()
         {
             var xml = XElement.Parse("<property attribute='x' />");
 
@@ -30,7 +30,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void WrongPropertyName()
+        public void WrongName()
         {
             var xml = XElement.Parse("<property name='XX' attribute='x' />");
 
@@ -79,7 +79,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void NoPropertyConverterName()
+        public void NoConverter()
         {
             var xml = XElement.Parse("<property name='X' attribute='x' />");
 
@@ -89,32 +89,13 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
         
         [Test]
-        public void CheckPropertyConverter()
+        public void CheckConverter()
         {
             var xml = XElement.Parse(string.Format("<property name='X' attribute='x' converter='{0}' />", typeof(YesNoConverter).AssemblyQualifiedName));
 
             var mapping = new XmlObjectPropertyMapping(typeof(Shape), xml);
 
             Assert.IsInstanceOf<YesNoConverter>(mapping.Converter);
-        }
-
-        [Test]
-        public void CheckPropertyPseudoConverter()
-        {
-            var pseudoConverterType = typeof(PseudoConverter).AssemblyQualifiedName;
-            var iConverterType = typeof(IConverter).AssemblyQualifiedName;
-            var xml = XElement.Parse(string.Format("<property name='X' attribute='x' converter='{0}' />", pseudoConverterType));
-
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlObjectPropertyMapping(typeof(Shape), xml));
-            Assert.AreEqual(string.Format("Illegal converter class '{0}', class must be inherited from '{1}'", pseudoConverterType, iConverterType), ex.Message);
-        }
-
-        [Test]
-        public void CheckPropertyWrongConverter()
-        {
-            var xml = XElement.Parse("<property name='X' attribute='x' converter='WrongConverter' />");
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlObjectPropertyMapping(typeof(Shape), xml));
-            Assert.AreEqual("Cannot parse converter type, unrecognized class 'WrongConverter'", ex.Message);
-        }
+        }       
     }
 }

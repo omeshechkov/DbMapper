@@ -18,7 +18,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void NoObjectMapping()
+        public void NoMapping()
         {
             var xml = XElement.Parse("<object-mapping xmlns='urn:dbm-oracle-object-mapping' />");
 
@@ -27,7 +27,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void NoObjectSchema()
+        public void NoSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>
@@ -40,7 +40,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
         
         [Test]
-        public void NoObjectName()
+        public void NoName()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>
@@ -53,7 +53,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void NoObjectClass()
+        public void NoClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>
@@ -66,7 +66,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void WrongObjectClass()
+        public void WrongClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>
@@ -79,7 +79,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
         
         [Test]
-        public void CheckObjectClass()
+        public void CheckClass()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>
@@ -92,7 +92,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
 
         [Test]
-        public void CheckObjectSchema()
+        public void CheckSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>
@@ -105,7 +105,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ObjectMappingUnitTest
         }
         
         [Test]
-        public void CheckObjectProperties()
+        public void CheckProperties()
         {
             var xml = XElement.Parse(string.Format(@"
 <object-mapping xmlns='urn:dbm-oracle-object-mapping'>

@@ -14,7 +14,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void NoName()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse("<subclass />");
@@ -26,7 +26,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void WrongName()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse("<subclass name='WrongClass' />");
@@ -38,7 +38,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckName()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format("<subclass name='{0}' />", typeof(TwoDimensionalShape).AssemblyQualifiedName));
@@ -59,7 +59,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void WrongDiscriminatorValueType()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format("<subclass name='{0}' discriminator-value='str' />", typeof(TwoDimensionalShape).AssemblyQualifiedName));
@@ -71,7 +71,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckDiscriminatorStringValue()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(string));
 
             var xml = XElement.Parse(string.Format("<subclass name='{0}' discriminator-value='str' />", typeof(TwoDimensionalShape).AssemblyQualifiedName));
@@ -83,7 +83,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckDiscriminatorLongValue()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format("<subclass name='{0}' discriminator-value='1' />", typeof(TwoDimensionalShape).AssemblyQualifiedName));
@@ -95,7 +95,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckEmptyJoin()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format("<subclass name='{0}' />", typeof(TwoDimensionalShape).AssemblyQualifiedName));
@@ -107,7 +107,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckJoin()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format(@"
@@ -126,7 +126,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckSubclasses()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format(@"
@@ -142,7 +142,7 @@ namespace DbMapper.Impl.Mappings.Xml.Test.ViewMapping
         [Test]
         public void CheckProperties()
         {
-            var mock = new Mock<IDiscriminatorColumn>();
+            var mock = new Mock<IDiscriminatorColumnMapping>();
             mock.Setup(c => c.Type).Returns(typeof(long));
 
             var xml = XElement.Parse(string.Format(@"
