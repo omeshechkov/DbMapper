@@ -58,10 +58,12 @@
     <Compile Include="Converters\PseudoConverter.cs" />
     <Compile Include="ParseTypeUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewMapping\ExtendViewMappingUnitTest.cs" />
     <Compile Include="TableMapping\Model\PrimaryKeyMemberReference.cs" />
     <Compile Include="TableMapping\Model\Shape.cs" />
     <Compile Include="DiscriminatorUnitTest.cs" />
     <Compile Include="SubclassJoinColumnMappingUnitTest.cs" />
+    <Compile Include="TableMapping\ExtendTableMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableSubclassJoinMappingUnitTest.cs" />
     <Compile Include="TableMapping\TableVersionPropertyMappingUnitTest.cs" />
     <Compile Include="TableMapping\TablePropertyGeneratorFactoryUnitTest.cs" />

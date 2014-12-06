@@ -8,8 +8,8 @@ namespace DbMapper
     {
         void Configure(XElement configuration);
 
-        void RegisterMapping(IMapping mapping);
+        void RegisterMapping(IDbMapping mapping);
 
-        TMapping GetMapping<TMapping>(Type type) where TMapping : IMapping;
+        TMapping GetMapping<TMapping>(Type type) where TMapping : IDbMapping;
     }
 }

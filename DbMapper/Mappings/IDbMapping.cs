@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace DbMapper.Mappings
+﻿namespace DbMapper.Mappings
 {
-    public interface IMapping
+    public interface IDbMapping : IMappingClassReference
     {
         /// <summary>
         /// Database entity name (table, view, function, procedure etc.)
@@ -13,10 +11,5 @@ namespace DbMapper.Mappings
         /// Database entity schema
         /// </summary>
         string Schema { get; }
-
-        /// <summary>
-        /// .NET object type
-        /// </summary>
-        Type Type { get; }
     }
 }

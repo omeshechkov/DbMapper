@@ -2,7 +2,7 @@
 
 namespace DbMapper.Oracle.Mappings
 {
-    public interface IObjectMapping : IMapping, IHasProperties { }
+    public interface IObjectMapping : IDbMapping, IHasProperties { }
 
     public interface IObjectPropertyMapping : IPropertyMapping { }
 }

@@ -2,8 +2,8 @@
 
 namespace DbMapper.Mappings
 {
-    public interface IMutableMapping
+    public interface IMutableMapping : IMappingClassReference
     {
         IList<ISubClassMapping> SubClasses { get; }
     }
-},
+}

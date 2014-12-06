@@ -8,7 +8,7 @@ using DbMapper.Mappings;
 
 namespace DbMapper.Impl.Mappings.Xml.Factories
 {
-    public delegate IMapping MappingBuilder(XElement xMapping);
+    public delegate IDbMapping MappingBuilder(XElement xMapping);
 
     internal static class MappingFactory
     {
@@ -22,7 +22,7 @@ namespace DbMapper.Impl.Mappings.Xml.Factories
             MappingBuilders[documentType] = mappingBuilder;
         }
 
-        public static IMapping CreateMapping(XDocument xMapping)
+        public static IDbMapping CreateMapping(XDocument xMapping)
         {
             var rootElement = xMapping.Root;
 

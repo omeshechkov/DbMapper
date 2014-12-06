@@ -3,7 +3,7 @@ using DbMapper.Mappings;
 
 namespace DbMapper.Oracle.Mappings
 {
-    public interface IObjectTableMapping : IMapping
+    public interface IObjectTableMapping : IDbMapping
     {
         Type ObjectType { get; set; }
     }

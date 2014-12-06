@@ -3,7 +3,7 @@ using DbMapper.Mappings;
 
 namespace DbMapper.Oracle.Mappings
 {
-    public interface IProcedureMapping : IMapping, IHasParameters
+    public interface IProcedureMapping : IDbMapping, IHasParameters
     {
         MethodInfo Delegate { get; }
     }

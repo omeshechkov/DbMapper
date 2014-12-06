@@ -53,6 +53,7 @@
     <Compile Include="Exceptions\ParseValueException.cs" />
     <Compile Include="Exceptions\ParseTypeException.cs" />
     <Compile Include="Factories\MappingFactory.cs" />
+    <Compile Include="Mappings\XmlExtendViewMapping.cs" />
     <Compile Include="Mappings\XmlSubClassJoin.cs" />
     <Compile Include="Mappings\XmlExtendTableMapping.cs" />
     <Compile Include="Mappings\XmlViewSubClassMapping.cs" />

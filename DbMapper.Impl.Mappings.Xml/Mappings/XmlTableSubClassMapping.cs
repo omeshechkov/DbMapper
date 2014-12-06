@@ -11,6 +11,8 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
     {
         public XmlTableSubClassMapping(IDiscriminatorColumnMapping discriminatorColumn, XElement xSubClass)
         {
+            var xNamespace = xSubClass.Name.Namespace;
+
             XAttribute xName;
             if (!xSubClass.TryGetAttribute("name", out xName))
                 throw new DocumentParseException("Cannot find name at table subclass mapping");
@@ -25,13 +27,13 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
 
             XElement xSubClassJoin;
-            if (xSubClass.TryGetElement(XmlTableMapping.XNamespace + "join", out xSubClassJoin))
+            if (xSubClass.TryGetElement(xNamespace + "join", out xSubClassJoin))
             {
-                Join = new XmlSubClassJoin(XmlTableMapping.XNamespace, xSubClassJoin);
+                Join = new XmlSubClassJoin(xNamespace, xSubClassJoin);
             }
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in xSubClass.Elements(XmlTableMapping.XNamespace + "property"))
+            foreach (var xProperty in xSubClass.Elements(xNamespace + "property"))
             {
                 Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
             }
@@ -53,7 +55,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubSubClass in xSubClass.Elements(XmlTableMapping.XNamespace + "subclass"))
+            foreach (var xSubSubClass in xSubClass.Elements(xNamespace + "subclass"))
             {
                 SubClasses.Add(new XmlTableSubClassMapping(discriminatorColumn, xSubSubClass));
             }

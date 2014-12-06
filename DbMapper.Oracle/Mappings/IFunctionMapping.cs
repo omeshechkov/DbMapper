@@ -4,7 +4,7 @@ using DbMapper.Mappings;
 
 namespace DbMapper.Oracle.Mappings
 {
-    public interface IFunctionMapping : IMapping, IHasParameters
+    public interface IFunctionMapping : IDbMapping, IHasParameters
     {
         MethodInfo Delegate { get; }
 

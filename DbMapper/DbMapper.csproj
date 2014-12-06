@@ -54,9 +54,10 @@
     <Compile Include="MappingBuilders\DefaultMappingBuilder.cs" />
     <Compile Include="Mappings\IDiscriminatorColumnMapping.cs" />
     <Compile Include="Mappings\IExtendViewMapping.cs" />
+    <Compile Include="Mappings\IMappingClassReference.cs" />
     <Compile Include="Mappings\IMutableMapping.cs" />
     <Compile Include="Mappings\IHasProperties.cs" />
-    <Compile Include="Mappings\IMapping.cs" />
+    <Compile Include="Mappings\IDbMapping.cs" />
     <Compile Include="Mappings\IPropertyMapping.cs" />
     <Compile Include="Mappings\ISubClassMapping.cs" />
     <Compile Include="Mappings\IExtendTableMapping.cs" />

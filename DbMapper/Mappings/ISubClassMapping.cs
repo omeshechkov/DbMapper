@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace DbMapper.Mappings
@@ -6,8 +5,6 @@ namespace DbMapper.Mappings
     public interface ISubClassMapping : IMutableMapping, IHasProperties
     {
         object DiscriminatorValue { get; }
-
-        Type Type { get; }
 
         ISubClassJoin Join { get; }
     }
