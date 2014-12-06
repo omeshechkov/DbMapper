@@ -48,6 +48,7 @@
     <Compile Include="Generators\SequenceGenerator.cs" />
     <Compile Include="IGenerator.cs" />
     <Compile Include="IMappingBuilder.cs" />
+    <Compile Include="IMappingValidator.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="ITypeConverter.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="Converters\Exceptions\ConversionException.cs" />
     <Compile Include="Converters\NumberPropertyTypeConverter.cs" />
     <Compile Include="Mappings\IViewPropertyMapping.cs" />
+    <Compile Include="MappingValidators\Exceptions\ValidationException.cs" />
+    <Compile Include="MappingValidators\TableMappingValidator.cs" />
     <Compile Include="Queries\QuerySingle.cs" />
     <Compile Include="Statements\Expressions.cs" />
     <Compile Include="Statements\ISelectStatement.cs" />
