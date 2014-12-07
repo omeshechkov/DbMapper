@@ -45,6 +45,8 @@
     <Compile Include="Mappings\IObjectTableMapping.cs" />
     <Compile Include="Mappings\IObjectMapping.cs" />
     <Compile Include="Mappings\IParameterMapping.cs" />
+    <Compile Include="OracleDbModule.cs" />
+    <Compile Include="OracleQueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

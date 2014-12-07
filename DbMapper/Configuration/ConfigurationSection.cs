@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace DbMapper.Configuration
 {
@@ -9,7 +10,7 @@ namespace DbMapper.Configuration
 
         public object Create(object parent, object configContext, XmlNode section)
         {
-            return section;
+            return XElement.Parse(section.OuterXml);
         }
     }
 }

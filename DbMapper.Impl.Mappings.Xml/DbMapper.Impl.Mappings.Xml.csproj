@@ -63,7 +63,6 @@
     <Compile Include="Factories\GeneratorFactory.cs" />
     <Compile Include="Factories\ConverterFactory.cs" />
     <Compile Include="Utils\TypeUtils.cs" />
-    <Compile Include="Utils\XmlUtils.cs" />
     <Compile Include="Mappings\XmlDiscriminatorColumn.cs" />
     <Compile Include="XmlMappingBuilder.cs" />
     <Compile Include="Mappings\XmlTableMapping.cs" />

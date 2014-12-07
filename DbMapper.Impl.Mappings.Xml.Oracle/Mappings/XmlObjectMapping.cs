@@ -8,6 +8,7 @@ using DbMapper.Impl.Mappings.Xml.Factories;
 using DbMapper.Impl.Mappings.Xml.Utils;
 using DbMapper.Mappings;
 using DbMapper.Oracle.Mappings;
+using DbMapper.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 {

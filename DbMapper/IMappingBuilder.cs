@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using DbMapper.Mappings;
 
@@ -7,9 +8,15 @@ namespace DbMapper
     public interface IMappingBuilder
     {
         void Configure(XElement configuration);
+    }
 
-        void RegisterMapping(IMappingClassReference mapping);
+    public interface IStaticMappingBuilder : IMappingBuilder
+    {
+        ICollection<IMappingClassReference> Mappings { get; }
+    }
 
-        TMapping GetMapping<TMapping>(Type type) where TMapping : IMappingClassReference;
+    public interface IDynamicMappingBuilder : IMappingBuilder
+    {
+        bool TryGetMapping<TMapping>(Type type, out TMapping mapping) where TMapping : IMappingClassReference;
     }
 }

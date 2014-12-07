@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Utils;
 using DbMapper.Oracle.Mappings;
+using DbMapper.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Oracle.Mappings
 {

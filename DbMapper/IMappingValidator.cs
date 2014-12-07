@@ -1,9 +1,20 @@
-﻿using DbMapper.Mappings;
+﻿using System;
+using System.Collections.Generic;
+using DbMapper.Mappings;
 
 namespace DbMapper
 {
-    public interface IMappingValidator<T> where T : IMappingClassReference
+    public interface IMappingValidator
     {
-        void Validate(T mapping);
+        IEnumerable<Type> SupportedMappingTypes { get; }
+
+        void Validate(IMappingClassReference mapping);
+    }
+
+    public interface IReferenceMappingValidator : IMappingValidator
+    {
+        void BeginValidate();
+        
+        void EndValidate();
     }
 }

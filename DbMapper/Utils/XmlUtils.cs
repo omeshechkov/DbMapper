@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace DbMapper.Impl.Mappings.Xml.Utils
+namespace DbMapper.Utils
 {
     public static class XmlUtils
     {
@@ -90,6 +91,15 @@ namespace DbMapper.Impl.Mappings.Xml.Utils
             element = xElement.Element(name);
 
             return element != null;
+        }
+
+        public static bool TryGetElements(this XElement xElement, XName name, out IList<XElement> elements)
+        {
+            var res = xElement.Elements(name);
+
+            elements = res as IList<XElement> ?? res.ToArray();
+
+            return elements.Count > 0;
         }
 
         public static bool TryGetAttribute(this XElement xElement, XName name, out XAttribute attribute)

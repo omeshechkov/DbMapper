@@ -88,7 +88,7 @@ namespace Test
         static void Main(string[] args)
         {
 
-            Console.WriteLine(Type.GetType("Test.Program+Functions+OraFunction").GetMethod("Invoke"));
+            Initializer.Initialize();
             return;
 
             var xmlAssembly = Assembly.Load("DbMapper.Impl.Mappings.Xml");

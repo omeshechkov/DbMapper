@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,12 +9,14 @@ using DbMapper.Converters;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Factories;
 using DbMapper.Impl.Mappings.Xml.Mappings;
-using DbMapper.MappingBuilders;
+using DbMapper.Impl.Mappings.Xml.Utils;
+using DbMapper.Mappings;
+using DbMapper.Utils;
 using log4net;
 
 namespace DbMapper.Impl.Mappings.Xml
 {
-    public class XmlMappingBuilder : DefaultMappingBuilder
+    public class XmlMappingBuilder : IStaticMappingBuilder
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(XmlMappingBuilder));
 
@@ -44,25 +47,55 @@ namespace DbMapper.Impl.Mappings.Xml
             MappingFactory.RegisterMapping(documentType, schema, builder);
         }
 
-        public sealed override void Configure(XElement configuration)
+        public void Configure(XElement configuration)
         {
-            //TODO - validate using schema
-            //configuration.Validate();
+            var xSource = configuration.SubElement();
 
-            var source = configuration.Elements().First();
-
-            if (source.Name == "assembly-resources")
+            if (xSource.Name == "assembly-resources")
             {
-                var assemblyName = source.Attribute("name").Value;
-                var resourcesMask = source.Attribute("mask").Value;
+                XAttribute xName;
+                if (!xSource.TryGetAttribute("name", out xName))
+                    throw new ConfigurationException("Cannot find name at assembly-resources");
+                
+                var assemblyName = xName.Value;
+
+                if (string.IsNullOrEmpty(assemblyName))
+                    throw new ConfigurationException("Name is empty at assembly-resources");
+
+                XAttribute xMask;
+                if (!xSource.TryGetAttribute("mask", out xMask))
+                    throw new ConfigurationException("Cannot find mask at assembly-resources");
+
+                var resourcesMask = xMask.Value;
+
+                if (string.IsNullOrEmpty(resourcesMask))
+                    throw new ConfigurationException("Mask is empty at assembly-resources");
 
                 LoadFromAssembly(assemblyName, resourcesMask);
             }
         }
 
+        public ICollection<IMappingClassReference> Mappings { get; private set; }
+
         private void LoadFromAssembly(string name, string mask)
         {
-            var assembly = Assembly.Load(name);
+            if (name == null)
+                throw new ArgumentNullException("name");
+            
+            if (mask == null)
+                throw new ArgumentNullException("mask");
+            
+            Mappings = new List<IMappingClassReference>();
+
+            Assembly assembly;
+            try
+            {
+                assembly = Assembly.Load(name);
+            }
+            catch (Exception ex)
+            {
+                throw new ConfigurationException(string.Format("Cannot load xml mappings from assembly '{0}'", name), ex);
+            }
 
             var regex = new Regex(mask);
 
@@ -81,7 +114,7 @@ namespace DbMapper.Impl.Mappings.Xml
 
                     var mapping = MappingFactory.CreateMapping(xMapping);
 
-                    RegisterMapping(mapping);
+                    Mappings.Add(mapping);
                 }
                 catch (Exception ex)
                 {

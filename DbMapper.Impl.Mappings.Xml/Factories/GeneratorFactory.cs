@@ -2,7 +2,7 @@
 using DbMapper.Generators;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Mappings;
-using DbMapper.Impl.Mappings.Xml.Utils;
+using DbMapper.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Factories
 {

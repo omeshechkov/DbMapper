@@ -18,7 +18,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }   
 
         [Test]
-        public void NoProcedureMapping()
+        public void NoMapping()
         {
             var xml = XElement.Parse("<procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping' />");
 
@@ -27,7 +27,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }   
         
         [Test]
-        public void NoProcedureSchema()
+        public void NoSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -39,7 +39,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }  
         
         [Test]
-        public void NoProcedureName()
+        public void NoName()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -51,7 +51,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }       
 
         [Test]
-        public void NoProcedureDelegate()
+        public void NoDelegate()
         {
             var xml = XElement.Parse(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -63,7 +63,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }       
 
         [Test]
-        public void CheckProcedureSchema()
+        public void CheckSchema()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -75,7 +75,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }
         
         [Test]
-        public void CheckProcedureName()
+        public void CheckName()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -87,7 +87,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }
 
         [Test]
-        public void CheckProcedureDelegate()
+        public void CheckDelegate()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -100,7 +100,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         }
         
         [Test]
-        public void CheckProcedureNoParameters()
+        public void NoParameters()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -112,7 +112,7 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
         } 
         
         [Test]
-        public void CheckProcedureParameters()
+        public void CheckParameters()
         {
             var xml = XElement.Parse(string.Format(@"
 <procedure-mapping xmlns='urn:dbm-oracle-procedure-mapping'>
@@ -125,6 +125,8 @@ namespace DbMapper.Impl.Mappings.Xml.Oracle.Test.ProcedureMappingUnitTest
 
             var mapping = new XmlProcedureMapping(xml);
             Assert.AreEqual(2, mapping.Parameters.Count);
+            Assert.IsInstanceOf<XmlParameterMapping>(mapping.Parameters[0]);
+            Assert.IsInstanceOf<XmlParameterMapping>(mapping.Parameters[1]);
         }       
     }
 }
