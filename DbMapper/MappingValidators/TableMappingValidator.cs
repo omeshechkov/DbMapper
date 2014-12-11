@@ -1,76 +1,101 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
+using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators.Exceptions;
+using DbMapper.Utils;
 
 namespace DbMapper.MappingValidators
 {
-    internal sealed class TableMappingValidator : IMappingValidator
+    [CanValidate(typeof(ITableMapping))]
+    internal sealed class TableMappingValidator : MappingValidator
     {
-        private static readonly IEnumerable<Type> _supportedMappingTypes = new[]
-        {
-            typeof (ITableMapping)
-        };
+        public TableMappingValidator(IMappingValidatorFactory factory) : base(factory) { }
 
-        public IEnumerable<Type> SupportedMappingTypes
-        {
-            get { return _supportedMappingTypes; }
-        }
-
-        public void Validate(IMappingClassReference mapping)
+        public override void Validate(object mapping)
         {
             if (mapping == null)
-                throw new ValidationException("Cannot validate mapping, mapping is null");
+                throw new ValidationException("Table mapping validation error, mapping is null");
 
             var tableMapping = mapping as ITableMapping;
             if (tableMapping == null)
-                throw new ValidationException("Cannot validate mapping, mapping '{0}' is not a table mapping", mapping.GetType().AssemblyQualifiedName);
-
-            if (string.IsNullOrEmpty(tableMapping.Name))
-                throw new ValidationException("Cannot validate table mapping, table is null or empty");
+                throw new ValidationException("Table mapping validation error, mapping '{0}' is not a table mapping", mapping.GetType().AssemblyQualifiedName);
 
             if (tableMapping.Type == null)
-                throw new ValidationException("Cannot validate table mapping, type is null");
-        }
-    }
-
-    sealed class ExtendTableMappingValidator : IReferenceMappingValidator
-    {
-        private static readonly IEnumerable<Type> _supportedMappingTypes = new[]
-        {
-            typeof (ITableMapping),
-            typeof (IExtendTableMapping)
-        };
-
-        public IEnumerable<Type> SupportedMappingTypes
-        {
-            get { return _supportedMappingTypes; }
-        }
-
-        public void Validate(IMappingClassReference mapping)
-        {
-            if (mapping == null)
-                throw new ValidationException("Cannot validate mapping, mapping is null");
-
-            var tableMapping = mapping as ITableMapping;
-            if (tableMapping == null)
-                throw new ValidationException("Cannot validate mapping, mapping '{0}' is not a table mapping", mapping.GetType().AssemblyQualifiedName);
+                throw new ValidationException("Table mapping validation error, type is null");
 
             if (string.IsNullOrEmpty(tableMapping.Name))
-                throw new ValidationException("Cannot validate table mapping, table is null or empty");
+                throw new ValidationException("Table mapping '{0}' validation error, table name is null or empty", tableMapping.Type.AssemblyQualifiedName);
 
-            if (tableMapping.Type == null)
-                throw new ValidationException("Cannot validate table mapping, type is null");
-        }
+            if (tableMapping.Properties.Count == 0)
+                throw new ValidationException("Table mapping '{0}' validation error, no properties", tableMapping.Type.AssemblyQualifiedName);
 
-        public void BeginValidate()
-        {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var discriminator = tableMapping.Discriminator;
+                if (discriminator != null)
+                {
+                    using (var validationContext = new ValidationContext<IDiscriminatorColumnMapping>(Factory))
+                    {
+                        validationContext.Validate(discriminator);
+                    }
 
-        public void EndValidate()
-        {
-            throw new NotImplementedException();
+                    if (tableMapping.Type.IsAbstract)
+                    {
+                        if (tableMapping.DiscriminatorValue != null)
+                        {
+                            throw new ValidationException("Table mapping '{0}' validation error, abstract class cannot have discriminator-value",
+                                tableMapping.Type.AssemblyQualifiedName);
+                        }
+                    }
+                    else
+                    {
+                        if (tableMapping.DiscriminatorValue == null)
+                        {
+                            throw new ValidationException("Table mapping '{0}' validation error, non abstact class with discriminator column should have discriminator-value",
+                                tableMapping.Type.AssemblyQualifiedName);
+                        }
+
+                        if (tableMapping.DiscriminatorValue.GetType() != discriminator.Type)
+                        {
+                            throw new ValidationException(
+                                "Table mapping '{0}' validation error, discriminator value type is not match discriminator column type, expected: '{1}', actual: '{2}'",
+                                tableMapping.Type.AssemblyQualifiedName, discriminator.Type.AssemblyQualifiedName, tableMapping.DiscriminatorValue.GetType());
+                        }
+                    }
+                }
+
+                using (var validationContext = new ValidationContext<ITablePropertyMapping>(Factory))
+                {
+                    foreach (var propertyMapping in tableMapping.Properties)
+                    {
+                        validationContext.Validate(propertyMapping);
+                    }
+                }
+
+                if (tableMapping.SubClasses != null && tableMapping.SubClasses.Any())
+                {
+                    using (var validationContext = new ValidationContext<ISubClassMapping>(Factory))
+                    {
+                        foreach (var subClassMapping in tableMapping.SubClasses)
+                        {
+                            validationContext.Validate(subClassMapping);
+                        }
+                    }
+                }
+
+                if (tableMapping.Version != null)
+                {
+                    using (var validationContext = new ValidationContext<IVersionPropertyMapping>(Factory))
+                    {
+                        validationContext.Validate(tableMapping.Version);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ValidationException(string.Format("Table mapping '{0}' validation error, abstract class cannot have discriminator-value", tableMapping.Type.AssemblyQualifiedName), ex);
+            }
         }
     }
 }

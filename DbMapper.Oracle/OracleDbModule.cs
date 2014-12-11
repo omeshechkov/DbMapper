@@ -5,6 +5,7 @@
         public OracleDbModule()
         {
             //TODO register validators
+            //RegisterMappingValidator<>();
         }
 
         public override IQueryBuilder CreateQueryBuilder()

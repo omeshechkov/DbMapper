@@ -73,7 +73,7 @@ namespace Test
 
         public long TicketId { get; set; }
 
-        public long BetId { get; set; }
+        public long BetId;
     }
 
     internal delegate void OraFunction(long parameter);
@@ -87,6 +87,9 @@ namespace Test
 
         static void Main(string[] args)
         {
+            var betIdProperty = typeof(TicketBet).GetField("BetId");
+            Console.WriteLine(betIdProperty.FieldType);
+            return;
 
             Initializer.Initialize();
             return;
@@ -118,7 +121,7 @@ namespace Test
 
                 var xDoc = XDocument.Load(stream);
                 var @namespace = xDoc.Root.GetDefaultNamespace();
-                
+
 
                 if (!schemas.Contains(@namespace.NamespaceName))
                 {

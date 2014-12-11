@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using DbMapper.Exceptions;
+using DbMapper.Factories;
 using DbMapper.Mappings;
+using DbMapper.Utils;
 
 namespace DbMapper
 {
@@ -11,17 +13,16 @@ namespace DbMapper
         TMapping GetMapping<TMapping>(Type type) where TMapping : IMappingClassReference;
     }
 
-    class MappingProvider : IMappingProvider
+    internal class MappingProvider : IMappingProvider
     {
-        private readonly List<IMappingValidator> _mappingValidators = new List<IMappingValidator>();
-        private readonly IList<IReferenceMappingValidator> _referenceMappingValidators = new List<IReferenceMappingValidator>();
+        private readonly IMappingValidatorFactory _mappingValidatorFactory;
 
         private readonly IList<IDynamicMappingBuilder> _dynamicMappingBuilders = new List<IDynamicMappingBuilder>();
         private readonly IDictionary<Type, IMappingClassReference> _mappings = new Dictionary<Type, IMappingClassReference>();
 
-        internal void RegisterValidators(IEnumerable<IMappingValidator> validators)
+        public MappingProvider(IMappingValidatorFactory mappingValidatorFactory)
         {
-            _mappingValidators.AddRange(validators);
+            _mappingValidatorFactory = mappingValidatorFactory;
         }
 
         internal void RegisterMappingBuilder(IMappingBuilder mappingBuilder)
@@ -51,24 +52,12 @@ namespace DbMapper
 
         internal void Initialize()
         {
-            foreach (var mappingValidator in _referenceMappingValidators)
+            using (var validationContext = new ValidationContext<IMappingClassReference>(_mappingValidatorFactory))
             {
-                mappingValidator.BeginValidate();
-            }
-
-            foreach (var mapping in _mappings.Values)
-            {
-                var validators = _mappingValidators.Where(v => v.SupportedMappingTypes.Any(t => t.IsInstanceOfType(mapping)));
-
-                foreach (var validator in validators)
+                foreach (var mapping in _mappings.Values)
                 {
-                    validator.Validate(mapping);
+                    validationContext.Validate(mapping);
                 }
-            }
-
-            foreach (var mappingValidator in _referenceMappingValidators)
-            {
-                mappingValidator.EndValidate();
             }
 
             GC.Collect();
@@ -79,14 +68,14 @@ namespace DbMapper
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            var foundDynamic = false;
+            var @dynamic = false;
 
             IMappingClassReference mapping;
             if (!_mappings.TryGetValue(type, out mapping))
             {
                 var tmp = default(TMapping);
 
-                foundDynamic = _dynamicMappingBuilders.Any(b => b.TryGetMapping(type, out tmp));
+                @dynamic = _dynamicMappingBuilders.Any(b => b.TryGetMapping(type, out tmp));
 
                 mapping = tmp;
             }
@@ -97,12 +86,19 @@ namespace DbMapper
             if (!(mapping is TMapping))
             {
                 throw new Exception(string.Format("Cannot get mapping for type '{0}', expected mapping of type is '{1}', actual: {2}",
-                    type.AssemblyQualifiedName, typeof (TMapping).AssemblyQualifiedName, mapping.GetType().AssemblyQualifiedName));
+                    type.AssemblyQualifiedName, typeof(TMapping).AssemblyQualifiedName, mapping.GetType().AssemblyQualifiedName));
             }
 
 
-            if (foundDynamic) 
-                _mappings.Add(type, mapping);
+            if (!@dynamic)
+                return (TMapping)mapping;
+
+            using (var validationContext = new ValidationContext<IMappingClassReference>(_mappingValidatorFactory))
+            {
+                validationContext.Validate(mapping);
+            }
+
+            _mappings.Add(type, mapping);
 
             return (TMapping)mapping;
         }

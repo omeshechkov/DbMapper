@@ -51,10 +51,12 @@
     <Compile Include="IGenerator.cs" />
     <Compile Include="IMappingBuilder.cs" />
     <Compile Include="IMappingProvider.cs" />
-    <Compile Include="IMappingValidator.cs" />
+    <Compile Include="MappingValidators\DiscriminatorColumnMappingValidator.cs" />
+    <Compile Include="MappingValidators\IMappingValidator.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="ITypeConverter.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="Factories\IMappingValidatorFactory.cs" />
     <Compile Include="Mappings\IDiscriminatorColumnMapping.cs" />
     <Compile Include="Mappings\IExtendViewMapping.cs" />
     <Compile Include="Mappings\IMappingClassReference.cs" />
@@ -82,8 +84,13 @@
     <Compile Include="Converters\Exceptions\ConversionException.cs" />
     <Compile Include="Converters\NumberPropertyTypeConverter.cs" />
     <Compile Include="Mappings\IViewPropertyMapping.cs" />
+    <Compile Include="Factories\MappingValidatorFactory.cs" />
     <Compile Include="MappingValidators\Exceptions\ValidationException.cs" />
+    <Compile Include="MappingValidators\ExtendTableMappingValidator.cs" />
+    <Compile Include="MappingValidators\MappingValidator.cs" />
+    <Compile Include="MappingValidators\PropertyMappingValidator.cs" />
     <Compile Include="MappingValidators\TableMappingValidator.cs" />
+    <Compile Include="MappingValidators\TablePropertyMappingValidator.cs" />
     <Compile Include="Queries\QuerySingle.cs" />
     <Compile Include="Statements\Expressions.cs" />
     <Compile Include="Statements\ISelectStatement.cs" />
@@ -96,6 +103,7 @@
     <Compile Include="QueryBuilder\QueryBuilder.cs" />
     <Compile Include="Statements\SelectStatement.cs" />
     <Compile Include="TableAliasGenerators\TableAliasGenerator.cs" />
+    <Compile Include="Utils\ValidationContext.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
   </ItemGroup>
   <ItemGroup>

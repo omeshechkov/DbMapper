@@ -59,10 +59,15 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 Discriminator = new XmlDiscriminatorColumnMapping(xDiscriminator);
             }
 
-            SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubClass in xTable.Elements(XNamespace + "subclass"))
+            IList<XElement> xSubClasses;
+            if (xTable.TryGetElements(XNamespace + "subclass", out xSubClasses))
             {
-                SubClasses.Add(new XmlTableSubClassMapping(Discriminator, xSubClass));
+                SubClasses = new List<ISubClassMapping>();
+
+                foreach (var xSubClass in xSubClasses)
+                {
+                    SubClasses.Add(new XmlTableSubClassMapping(Discriminator, xSubClass));
+                }
             }
 
             XAttribute xDiscriminatorValue;
@@ -88,26 +93,30 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
 
             XElement xPrimaryKey;
-            if (!xTable.TryGetElement(XNamespace + "primary-key", out xPrimaryKey)) 
+            if (!xTable.TryGetElement(XNamespace + "primary-key", out xPrimaryKey))
                 return;
 
-            PrimaryKeyProperties = new List<IPropertyMapping>();
-
-            var properties = Properties.ToDictionary(p => p.Name);
-
-            foreach (var xProperty in xPrimaryKey.Elements(XNamespace + "property"))
+            IList<XElement> xPrimaryKeyProperties;
+            if (xPrimaryKey.TryGetElements(XNamespace + "property", out xPrimaryKeyProperties))
             {
-                XAttribute xPrimaryKeyPropertyName;
-                if (!xProperty.TryGetAttribute("name", out xPrimaryKeyPropertyName))
-                    throw new DocumentParseException("Cannot find name at table primary key mapping");
+                PrimaryKeyProperties = new List<IPropertyMapping>();
 
-                var name = xPrimaryKeyPropertyName.Value;
+                var properties = Properties.ToDictionary(p => p.Name);
 
-                IPropertyMapping propertyMapping;
-                if (!properties.TryGetValue(name, out propertyMapping))
-                    throw new DocumentParseException("Cannot find primary key property '{0}' at table primary key mapping", name);
+                foreach (var xProperty in xPrimaryKeyProperties)
+                {
+                    XAttribute xPrimaryKeyPropertyName;
+                    if (!xProperty.TryGetAttribute("name", out xPrimaryKeyPropertyName))
+                        throw new DocumentParseException("Cannot find name at table primary key mapping");
 
-                PrimaryKeyProperties.Add(propertyMapping);
+                    var name = xPrimaryKeyPropertyName.Value;
+
+                    IPropertyMapping propertyMapping;
+                    if (!properties.TryGetValue(name, out propertyMapping))
+                        throw new DocumentParseException("Cannot find primary key property '{0}' at table primary key mapping", name);
+
+                    PrimaryKeyProperties.Add(propertyMapping);
+                }
             }
         }
 

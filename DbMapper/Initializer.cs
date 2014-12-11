@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Xml.Linq;
 using DbMapper.Configuration;
+using DbMapper.Factories;
 using DbMapper.Utils;
 
 namespace DbMapper
@@ -20,7 +21,9 @@ namespace DbMapper
         {
             try
             {
-                _mappingProvider = new MappingProvider();
+                var mappingValidatorFactory = new MappingValidatorFactory();
+
+                _mappingProvider = new MappingProvider(mappingValidatorFactory);
 
                 var xConfiguration = (XElement)ConfigurationManager.GetSection(DbMapperSection.Name);
 
@@ -38,7 +41,6 @@ namespace DbMapper
                     if (!xModule.TryGetAttribute("class", out xClass))
                         throw new Exceptions.ConfigurationException("Cannot find module class");
 
-
                     Type moduleType;
                     try
                     {
@@ -54,8 +56,7 @@ namespace DbMapper
                             typeof(IDbModule).AssemblyQualifiedName));
 
                     var module = (IDbModule)Activator.CreateInstance(moduleType);
-
-                    _mappingProvider.RegisterValidators(module.Validators);
+                    //TODO
                 }
 
                 XElement xMappingBuilders;

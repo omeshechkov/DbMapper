@@ -1,31 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
+using DbMapper.Factories;
 using DbMapper.MappingValidators;
 
 namespace DbMapper
 {
     public abstract class DefaultDbModule : IDbModule
     {
-        private readonly IList<IMappingValidator> _validators = new List<IMappingValidator>();
+        private readonly MappingValidatorFactory _mappingValidatorFactory = new MappingValidatorFactory();
+        protected IMappingValidatorFactory MappingValidatorFactory
+        {
+            get { return _mappingValidatorFactory; }
+        }
 
         protected DefaultDbModule()
         {
-            _validators.Add(new TableMappingValidator());
-            _validators.Add(new ExtendTableMappingValidator());
+            _mappingValidatorFactory.RegisterValidator(f => new TableMappingValidator(f));
+            _mappingValidatorFactory.RegisterValidator(f => new DiscriminatorColumnMappingValidator(f));
+            _mappingValidatorFactory.RegisterValidator(f => new PropertyMappingValidator(f));
+            _mappingValidatorFactory.RegisterValidator(f => new TablePropertyMappingValidator(f));
+            _mappingValidatorFactory.RegisterValidator(f => new VersionPropertyMappingValidator(f));
+
+            _mappingValidatorFactory.RegisterValidator(f => new ExtendTableMappingValidator());
         }
 
         public Type QueryBuilderType { get; protected set; }
 
-        public IEnumerable<IMappingValidator> Validators
-        {
-            get { return _validators; }
-        }
-
         public abstract IQueryBuilder CreateQueryBuilder();
 
-        protected void RegisterMappingValidator(IMappingValidator mappingValidator)
+        protected void RegisterMappingValidator<T>(MappingValidatorCreator<T> creator) where T : IMappingValidator
         {
-            _validators.Add(mappingValidator);
+            _mappingValidatorFactory.RegisterValidator<T>(creator);
         }
     }
 }
