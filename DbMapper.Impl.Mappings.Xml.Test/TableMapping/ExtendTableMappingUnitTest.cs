@@ -49,14 +49,17 @@ namespace DbMapper.Impl.Mappings.Xml.Test.TableMapping
             var xml = XElement.Parse(string.Format(@"
 <extend-table-mapping xmlns='urn:dbm-extend-table-mapping'>
   <extend-table class='{0}'>
-    <subclass name='{1}' discriminator-value='1' />
+    <subclass name='{1}'>
+      <join table='two_dimensional_shapes'>
+        <column name='two_dimensional_shapes_id' join-column='id' />
+      </join>
+    </subclass>
   </extend-table>
 </extend-table-mapping>", typeof(Shape).AssemblyQualifiedName, typeof(TwoDimensionalShape).AssemblyQualifiedName));
 
-            var ex = Assert.Throws<DocumentParseException>(() => new XmlExtendTableMapping(xml));
-            Assert.AreEqual("Cannot find discriminator at extend-table mapping", ex.Message);
-        }
-
+            var mapping = new XmlExtendTableMapping(xml);
+        } 
+        
         [Test]
         public void CheckClass()
         {

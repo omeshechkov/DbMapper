@@ -4,6 +4,8 @@ namespace DbMapper.Mappings
 {
     public interface ISubClassMapping : IMutableMapping, IHasProperties
     {
+        IMappingClassReference Parent { get; }
+
         object DiscriminatorValue { get; }
 
         ISubClassJoin Join { get; }

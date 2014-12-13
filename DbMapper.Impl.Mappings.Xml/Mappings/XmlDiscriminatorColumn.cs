@@ -7,9 +7,9 @@ using DbMapper.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
-    sealed class XmlDiscriminatorColumnMapping : IDiscriminatorColumnMapping
+    sealed class XmlDiscriminatorMapping : IDiscriminatorMapping
     {
-        public XmlDiscriminatorColumnMapping(XElement xDiscriminator)
+        public XmlDiscriminatorMapping(XElement xDiscriminator)
         {
             XAttribute xType;
             if (!xDiscriminator.TryGetAttribute("type", out xType))

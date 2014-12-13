@@ -1,7 +1,4 @@
 ﻿namespace DbMapper.Mappings
 {
-    public interface IExtendTableMapping : IMutableMapping
-    {
-        IDiscriminatorColumnMapping Discriminator { get; }
-    }
+    public interface IExtendTableMapping : IMutableMapping { }
 }

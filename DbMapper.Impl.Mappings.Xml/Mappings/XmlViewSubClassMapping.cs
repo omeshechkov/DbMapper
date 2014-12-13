@@ -8,10 +8,12 @@ using DbMapper.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
-    sealed class XmlViewSubClassMapping : ISubClassMapping
+    sealed class XmlViewSubClassMapping : IViewSubClassMapping
     {
-        public XmlViewSubClassMapping(IDiscriminatorColumnMapping discriminatorColumn, XElement xSubClass)
+        public XmlViewSubClassMapping(IMappingClassReference parent, IDiscriminatorMapping discriminator, XElement xSubClass)
         {
+            Parent = parent;
+
             var xNamespace = xSubClass.Name.Namespace;
 
             XAttribute xName;
@@ -42,23 +44,25 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             XAttribute xDiscriminatorValue;
             if (xSubClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                if (discriminatorColumn == null)
-                    throw new DocumentParseException("Cannot parse subclass discriminator value at view subclass mapping, unknown discriminator type");
+                if (discriminator == null)
+                    throw new DocumentParseException("Cannot parse discriminator value at view subclass mapping, unknown discriminator type");
 
                 try
                 {
-                    DiscriminatorValue = TypeUtils.ParseAs(discriminatorColumn.Type, xDiscriminatorValue.Value);
+                    DiscriminatorValue = TypeUtils.ParseAs(discriminator.Type, xDiscriminatorValue.Value);
                 }
                 catch (Exception ex)
                 {
-                    throw new DocumentParseException(string.Format("Cannot parse subclass discriminator value '{0}' as '{1}' at view subclass mapping", xDiscriminatorValue.Value, discriminatorColumn.Type.AssemblyQualifiedName), ex);
+                    throw new DocumentParseException(
+                        string.Format("Cannot parse subclass discriminator value '{0}' as '{1}' at view subclass mapping", xDiscriminatorValue.Value,
+                            discriminator.Type.AssemblyQualifiedName), ex);
                 }
             }
 
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubSubClass in xSubClass.Elements(xNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlTableSubClassMapping(discriminatorColumn, xSubSubClass));
+                SubClasses.Add(new XmlTableSubClassMapping(this, discriminator, xSubSubClass));
             }
         }
 
@@ -67,6 +71,8 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
         public IList<IPropertyMapping> Properties { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
+
+        public IMappingClassReference Parent { get; private set; }
 
         public object DiscriminatorValue { get; private set; }
 

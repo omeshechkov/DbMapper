@@ -6,7 +6,7 @@ namespace DbMapper.MappingValidators
     {
         internal IMappingValidatorFactory Factory { get; private set; }
 
-        public abstract void Validate(object mapping);
+        public abstract void Validate(object mapping, object context);
 
         protected MappingValidator(IMappingValidatorFactory factory)
         {

@@ -2,7 +2,7 @@ using System;
 
 namespace DbMapper.Mappings
 {
-    public interface IDiscriminatorColumnMapping
+    public interface IDiscriminatorMapping
     {
         string Column { get; }
 

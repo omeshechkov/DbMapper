@@ -1,38 +1,49 @@
-﻿using System;
+using System;
 using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators.Exceptions;
+using DbMapper.Utils;
 
 namespace DbMapper.MappingValidators
 {
-    [CanValidate(typeof(ITableMapping))]
     [CanValidate(typeof(IExtendTableMapping))]
-    sealed class ExtendTableMappingValidator : IStatefulMappingValidator
+    public sealed class ExtendTableMappingValidator : MappingValidator
     {
-        public void Validate(object mapping)
+        public ExtendTableMappingValidator(IMappingValidatorFactory factory)
+            : base(factory)
+        {
+        }
+
+        public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Cannot validate mapping, mapping is null");
+                throw new ValidationException("Extend table mapping validation error, mapping is null");
 
-            var tableMapping = mapping as ITableMapping;
-            if (tableMapping == null)
-                throw new ValidationException("Cannot validate mapping, mapping '{0}' is not a table mapping", mapping.GetType().AssemblyQualifiedName);
+            var extendTableMapping = mapping as IExtendTableMapping;
+            if (extendTableMapping == null)
+                throw new ValidationException("Extend table mapping '{0}' validation error, mapping is not an extend-table mapping", mapping.GetType().AssemblyQualifiedName);
 
-            if (string.IsNullOrEmpty(tableMapping.Name))
-                throw new ValidationException("Cannot validate table mapping, table is null or empty");
+            if (extendTableMapping.Type == null)
+                throw new ValidationException("Extend table mapping validation error, type is null");
 
-            if (tableMapping.Type == null)
-                throw new ValidationException("Cannot validate table mapping, type is null");
-        }
+            if (extendTableMapping.SubClasses == null || extendTableMapping.SubClasses.Count == 0)
+                throw new ValidationException("Extend table mapping '{0}' validation error, there are no subclasses, you have to specify at least one",
+                    extendTableMapping.GetType().AssemblyQualifiedName);
 
-        public void BeginValidate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndValidate()
-        {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                using (var validationContext = new ValidationContext<ITableSubClassMapping>(Factory))
+                {
+                    foreach (var subClassMapping in extendTableMapping.SubClasses)
+                    {
+                        validationContext.Validate(subClassMapping, mapping);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ValidationException(string.Format("Extend table mapping '{0}' validation error", extendTableMapping.Type.AssemblyQualifiedName), ex);
+            }
+        }        
     }
 }

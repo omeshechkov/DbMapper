@@ -37,18 +37,16 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             if (!xExtendView.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
                 throw new DocumentParseException("Cannot find discriminator at extend-view mapping");
 
-            Discriminator = new XmlDiscriminatorColumnMapping(xDiscriminator);
+            var discriminator = new XmlDiscriminatorMapping(xDiscriminator);
 
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in xExtendView.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlViewSubClassMapping(Discriminator, xSubClass));
+                SubClasses.Add(new XmlViewSubClassMapping(this, discriminator, xSubClass));
             }
         }
 
         public Type Type { get; private set; }
-
-        public IDiscriminatorColumnMapping Discriminator { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
     }

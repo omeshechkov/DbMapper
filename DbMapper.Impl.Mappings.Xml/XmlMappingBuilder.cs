@@ -9,7 +9,6 @@ using DbMapper.Converters;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Factories;
 using DbMapper.Impl.Mappings.Xml.Mappings;
-using DbMapper.Impl.Mappings.Xml.Utils;
 using DbMapper.Mappings;
 using DbMapper.Utils;
 using log4net;

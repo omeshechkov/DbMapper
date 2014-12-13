@@ -56,7 +56,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             XElement xDiscriminator;
             if (xTable.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
             {
-                Discriminator = new XmlDiscriminatorColumnMapping(xDiscriminator);
+                Discriminator = new XmlDiscriminatorMapping(xDiscriminator);
             }
 
             IList<XElement> xSubClasses;
@@ -66,7 +66,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
                 foreach (var xSubClass in xSubClasses)
                 {
-                    SubClasses.Add(new XmlTableSubClassMapping(Discriminator, xSubClass));
+                    SubClasses.Add(new XmlTableSubClassMapping(this, Discriminator, xSubClass));
                 }
             }
 
@@ -128,7 +128,7 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
 
         public IList<IPropertyMapping> Properties { get; private set; }
 
-        public IDiscriminatorColumnMapping Discriminator { get; private set; }
+        public IDiscriminatorMapping Discriminator { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
 

@@ -14,7 +14,7 @@ namespace DbMapper.MappingValidators
         {
         }
 
-        public override void Validate(object mapping)
+        public override void Validate(object mapping, object context)
         {
             if (mapping == null)
                 throw new ValidationException("Table property mapping validation error, mapping is null");
@@ -23,7 +23,6 @@ namespace DbMapper.MappingValidators
             if (tablePropertyMapping == null)
                 throw new ValidationException("Table property mapping validation error, mapping '{0}' is not a property mapping", mapping.GetType().AssemblyQualifiedName);
 
-
             if (tablePropertyMapping.Generator != null)
             {
                 using (var validationContext = new ValidationContext<IGenerator>(Factory))
@@ -31,28 +30,6 @@ namespace DbMapper.MappingValidators
                     validationContext.Validate(tablePropertyMapping.Generator);
                 }
             }
-        }
-    }
-    
-    [CanValidate(typeof(IVersionPropertyMapping))]
-    internal class VersionPropertyMappingValidator : MappingValidator
-    {
-
-        public VersionPropertyMappingValidator(IMappingValidatorFactory factory)
-            : base(factory)
-        {
-        }
-
-        public override void Validate(object mapping)
-        {
-            if (mapping == null)
-                throw new ValidationException("Version property mapping validation error, mapping is null");
-
-            var versionPropertyMapping = mapping as IVersionPropertyMapping;
-            if (versionPropertyMapping == null)
-                throw new ValidationException("Version property mapping validation error, mapping '{0}' is not a property mapping", mapping.GetType().AssemblyQualifiedName);
-
-            //TODO
         }
     }
 }

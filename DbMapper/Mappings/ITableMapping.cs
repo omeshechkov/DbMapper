@@ -8,4 +8,6 @@ namespace DbMapper.Mappings
 
         IList<IPropertyMapping> PrimaryKeyProperties { get; }
     }
+
+    public interface ITableSubClassMapping : ISubClassMapping { }
 }

@@ -6,8 +6,8 @@ using DbMapper.MappingValidators.Exceptions;
 
 namespace DbMapper.MappingValidators
 {
-    [CanValidate(typeof(IDiscriminatorColumnMapping))]
-    internal class DiscriminatorColumnMappingValidator : MappingValidator
+    [CanValidate(typeof(IDiscriminatorMapping))]
+    internal class DiscriminatorMappingValidator : MappingValidator
     {
         private static readonly IList<Type> SupportedTypes = new[]
         {
@@ -36,17 +36,17 @@ namespace DbMapper.MappingValidators
 
         private static readonly string SupportedTypesString = string.Join(", ", SupportedTypes);
 
-        public DiscriminatorColumnMappingValidator(IMappingValidatorFactory factory)
+        public DiscriminatorMappingValidator(IMappingValidatorFactory factory)
             : base(factory)
         {
         }
 
-        public override void Validate(object mapping)
+        public override void Validate(object mapping, object context)
         {
             if (mapping == null)
                 throw new ValidationException("Discriminator mapping validation error, mapping is null");
 
-            var discriminatorColumnMapping = mapping as IDiscriminatorColumnMapping;
+            var discriminatorColumnMapping = mapping as IDiscriminatorMapping;
             if (discriminatorColumnMapping == null)
                 throw new ValidationException("Discriminator mapping validation error, mapping '{0}' is not a discriminator column mapping", mapping.GetType().AssemblyQualifiedName);
 

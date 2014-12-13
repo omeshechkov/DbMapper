@@ -44,7 +44,7 @@ namespace DbMapper.MappingValidators
         {
         }
 
-        public override void Validate(object mapping)
+        public override void Validate(object mapping, object context)
         {
             if (mapping == null)
                 throw new ValidationException("Property mapping validation error, mapping is null");
@@ -93,7 +93,7 @@ namespace DbMapper.MappingValidators
 
             if (!SupportedTypes.Contains(memberType))
             {
-                throw new ValidationException("Property '{0}' mapping validation error, type '{0}' is not supported, supported types: [{1}]",
+                throw new ValidationException("Property '{0}' mapping validation error, type '{1}' is not supported, supported types: [{2}]",
                     propertyMapping.Name, memberType, SupportedTypesString);
             }
         }

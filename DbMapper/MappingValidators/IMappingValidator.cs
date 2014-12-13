@@ -2,7 +2,7 @@
 {
     public interface IMappingValidator
     {
-        void Validate(object mapping);
+        void Validate(object mapping, object context);
     }
 
     public interface IStatefulMappingValidator : IMappingValidator

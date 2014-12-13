@@ -28,11 +28,11 @@ namespace DbMapper.Utils
             }
         }
 
-        public void Validate(object obj)
+        public void Validate(object obj, object context = null)
         {
             foreach (var mappingValidator in _validators.Where(kvp => kvp.Key.IsInstanceOfType(obj)).SelectMany(kvp => kvp.Value))
             {
-                mappingValidator.Validate(obj);
+                mappingValidator.Validate(obj, context);
             }
         }
 

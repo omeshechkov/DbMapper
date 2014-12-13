@@ -12,7 +12,7 @@ namespace DbMapper.MappingValidators
     {
         public TableMappingValidator(IMappingValidatorFactory factory) : base(factory) { }
 
-        public override void Validate(object mapping)
+        public override void Validate(object mapping, object context)
         {
             if (mapping == null)
                 throw new ValidationException("Table mapping validation error, mapping is null");
@@ -35,7 +35,7 @@ namespace DbMapper.MappingValidators
                 var discriminator = tableMapping.Discriminator;
                 if (discriminator != null)
                 {
-                    using (var validationContext = new ValidationContext<IDiscriminatorColumnMapping>(Factory))
+                    using (var validationContext = new ValidationContext<IDiscriminatorMapping>(Factory))
                     {
                         validationContext.Validate(discriminator);
                     }
@@ -75,11 +75,11 @@ namespace DbMapper.MappingValidators
 
                 if (tableMapping.SubClasses != null && tableMapping.SubClasses.Any())
                 {
-                    using (var validationContext = new ValidationContext<ISubClassMapping>(Factory))
+                    using (var validationContext = new ValidationContext<ITableSubClassMapping>(Factory))
                     {
                         foreach (var subClassMapping in tableMapping.SubClasses)
                         {
-                            validationContext.Validate(subClassMapping);
+                            validationContext.Validate(subClassMapping, mapping);
                         }
                     }
                 }
@@ -94,7 +94,7 @@ namespace DbMapper.MappingValidators
             }
             catch (Exception ex)
             {
-                throw new ValidationException(string.Format("Table mapping '{0}' validation error, abstract class cannot have discriminator-value", tableMapping.Type.AssemblyQualifiedName), ex);
+                throw new ValidationException(string.Format("Table mapping '{0}' validation error", tableMapping.Type.AssemblyQualifiedName), ex);
             }
         }
     }
