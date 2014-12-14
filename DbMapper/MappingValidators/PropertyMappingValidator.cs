@@ -8,7 +8,7 @@ using DbMapper.MappingValidators.Exceptions;
 namespace DbMapper.MappingValidators
 {
     [CanValidate(typeof(IPropertyMapping))]
-    internal class PropertyMappingValidator : MappingValidator
+    public sealed class PropertyMappingValidator : MappingValidator
     {
         private static readonly IList<Type> SupportedTypes = new[]
         {
@@ -34,7 +34,7 @@ namespace DbMapper.MappingValidators
             typeof (double?),
             typeof (decimal?),
             typeof (Guid?),
-            typeof (DateTime)
+            typeof (DateTime?)
         };
 
         private static readonly string SupportedTypesString = string.Join(", ", SupportedTypes);
@@ -61,9 +61,6 @@ namespace DbMapper.MappingValidators
             if (memberInfo == null)
                 throw new ValidationException("Property '{0}' mapping validation error, member is null", propertyMapping.Name);
 
-            if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property)
-                throw new ValidationException("Property mapping validation error, member is not a property or a field");
-
             Type memberType;
             bool isStatic;
 
@@ -76,10 +73,10 @@ namespace DbMapper.MappingValidators
             }
             else if (propertyInfo != null)
             {
-                if (propertyInfo.CanRead)
+                if (!propertyInfo.CanRead)
                     throw new ValidationException("Property '{0}' mapping validation error, no getter", propertyMapping.Name);
 
-                if (propertyInfo.CanWrite)
+                if (!propertyInfo.CanWrite)
                     throw new ValidationException("Property '{0}' mapping validation error, no setter", propertyMapping.Name);
 
                 isStatic = propertyInfo.GetMethod.IsStatic || propertyInfo.SetMethod.IsStatic;
@@ -94,7 +91,7 @@ namespace DbMapper.MappingValidators
             if (!SupportedTypes.Contains(memberType))
             {
                 throw new ValidationException("Property '{0}' mapping validation error, type '{1}' is not supported, supported types: [{2}]",
-                    propertyMapping.Name, memberType, SupportedTypesString);
+                    propertyMapping.Name, memberType.AssemblyQualifiedName, SupportedTypesString);
             }
         }
     }

@@ -20,72 +20,23 @@ namespace DbMapper.MappingValidators
             var subClassMapping = mapping as IViewSubClassMapping;
             if (subClassMapping == null)
                 throw new ValidationException("View subclass mapping validation error, mapping '{0}' is not a view subclass mapping", mapping.GetType().AssemblyQualifiedName);
-
-            if (subClassMapping.Type == null)
-                throw new ValidationException("View subclass mapping validation error, type is null");
-
-            var parent = subClassMapping.Parent;
-            if (parent == null)
-                throw new ValidationException("View subclass mapping '{0}' validation error, parent class is null", subClassMapping.Type.AssemblyQualifiedName);
-
-            if (subClassMapping.Properties == null)
-                throw new ValidationException("View subclass mapping '{0}' validation error, properties is null", subClassMapping.Type.AssemblyQualifiedName);
-
-            if (!parent.Type.IsAssignableFrom(subClassMapping.Type))
-                throw new ValidationException("View subclass mapping '{0}' validation error, class '{0}' is not inherited from '{1}'",
-                    subClassMapping.Type.AssemblyQualifiedName, parent.Type);
-
+            
             try
             {
-                var tableMapping = (ITableMapping)context;
-
-                var discriminator = tableMapping.Discriminator;
-                if (discriminator != null)
+                if (subClassMapping.Properties != null && subClassMapping.Properties.Any())
                 {
-                    if (subClassMapping.Type.IsAbstract)
+                    using (var validationContext = new ValidationContext<IViewPropertyMapping>(Factory))
                     {
-                        if (subClassMapping.DiscriminatorValue != null)
+                        foreach (var propertyMapping in subClassMapping.Properties)
                         {
-                            throw new ValidationException("View subclass mapping '{0}' validation error, abstract class cannot have discriminator-value",
-                                subClassMapping.Type.AssemblyQualifiedName);
+                            validationContext.Validate(propertyMapping);
                         }
-                    }
-                    else
-                    {
-                        if (subClassMapping.DiscriminatorValue == null)
-                        {
-                            throw new ValidationException("View subclass mapping '{0}' validation error, non abstact class with discriminator column should have discriminator-value",
-                                subClassMapping.Type.AssemblyQualifiedName);
-                        }
-
-                        if (subClassMapping.DiscriminatorValue.GetType() != discriminator.Type)
-                        {
-                            throw new ValidationException(
-                                "View subclass mapping '{0}' validation error, discriminator value type is not match discriminator column type, expected: '{1}', actual: '{2}'",
-                                subClassMapping.Type.AssemblyQualifiedName, discriminator.Type.AssemblyQualifiedName, subClassMapping.DiscriminatorValue.GetType());
-                        }
-                    }
-                }
-
-                using (var validationContext = new ValidationContext<ISubClassJoin>(Factory))
-                {
-                    foreach (var propertyMapping in subClassMapping.Properties)
-                    {
-                        validationContext.Validate(propertyMapping);
-                    }
-                }
-
-                using (var validationContext = new ValidationContext<IViewPropertyMapping>(Factory))
-                {
-                    foreach (var propertyMapping in subClassMapping.Properties)
-                    {
-                        validationContext.Validate(propertyMapping);
                     }
                 }
 
                 if (subClassMapping.SubClasses != null && subClassMapping.SubClasses.Any())
                 {
-                    using (var validationContext = new ValidationContext<ISubClassMapping>(Factory))
+                    using (var validationContext = new ValidationContext<IViewSubClassMapping>(Factory))
                     {
                         foreach (var subSubClassMapping in subClassMapping.SubClasses)
                         {

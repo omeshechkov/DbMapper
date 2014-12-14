@@ -8,12 +8,13 @@ using DbMapper.Utils;
 namespace DbMapper.MappingValidators
 {
     [CanValidate(typeof(ITableMapping))]
-    internal sealed class TableMappingValidator : MappingValidator
+    public sealed class TableMappingValidator : MappingValidator
     {
         public TableMappingValidator(IMappingValidatorFactory factory) : base(factory) { }
 
         public override void Validate(object mapping, object context)
         {
+            //TODO begin: Move to TableOrViewMappingValidator
             if (mapping == null)
                 throw new ValidationException("Table mapping validation error, mapping is null");
 
@@ -30,41 +31,42 @@ namespace DbMapper.MappingValidators
             if (tableMapping.Properties.Count == 0)
                 throw new ValidationException("Table mapping '{0}' validation error, no properties", tableMapping.Type.AssemblyQualifiedName);
 
-            try
+            var discriminator = tableMapping.Discriminator;
+            if (discriminator != null)
             {
-                var discriminator = tableMapping.Discriminator;
-                if (discriminator != null)
+                using (var validationContext = new ValidationContext<IDiscriminatorMapping>(Factory))
                 {
-                    using (var validationContext = new ValidationContext<IDiscriminatorMapping>(Factory))
-                    {
-                        validationContext.Validate(discriminator);
-                    }
-
-                    if (tableMapping.Type.IsAbstract)
-                    {
-                        if (tableMapping.DiscriminatorValue != null)
-                        {
-                            throw new ValidationException("Table mapping '{0}' validation error, abstract class cannot have discriminator-value",
-                                tableMapping.Type.AssemblyQualifiedName);
-                        }
-                    }
-                    else
-                    {
-                        if (tableMapping.DiscriminatorValue == null)
-                        {
-                            throw new ValidationException("Table mapping '{0}' validation error, non abstact class with discriminator column should have discriminator-value",
-                                tableMapping.Type.AssemblyQualifiedName);
-                        }
-
-                        if (tableMapping.DiscriminatorValue.GetType() != discriminator.Type)
-                        {
-                            throw new ValidationException(
-                                "Table mapping '{0}' validation error, discriminator value type is not match discriminator column type, expected: '{1}', actual: '{2}'",
-                                tableMapping.Type.AssemblyQualifiedName, discriminator.Type.AssemblyQualifiedName, tableMapping.DiscriminatorValue.GetType());
-                        }
-                    }
+                    validationContext.Validate(discriminator);
                 }
 
+                if (tableMapping.Type.IsAbstract)
+                {
+                    if (tableMapping.DiscriminatorValue != null)
+                    {
+                        throw new ValidationException("Table mapping '{0}' validation error, abstract class cannot have discriminator-value",
+                            tableMapping.Type.AssemblyQualifiedName);
+                    }
+                }
+                else
+                {
+                    if (tableMapping.DiscriminatorValue == null)
+                    {
+                        throw new ValidationException("Table mapping '{0}' validation error, non abstact class with discriminator column should have discriminator-value",
+                            tableMapping.Type.AssemblyQualifiedName);
+                    }
+
+                    if (tableMapping.DiscriminatorValue.GetType() != discriminator.Type)
+                    {
+                        throw new ValidationException(
+                            "Table mapping '{0}' validation error, discriminator value type is not match discriminator column type, expected: '{1}', actual: '{2}'",
+                            tableMapping.Type.AssemblyQualifiedName, discriminator.Type.AssemblyQualifiedName, tableMapping.DiscriminatorValue.GetType());
+                    }
+                }
+            }
+            //end TODO
+            
+            try
+            {
                 using (var validationContext = new ValidationContext<ITablePropertyMapping>(Factory))
                 {
                     foreach (var propertyMapping in tableMapping.Properties)

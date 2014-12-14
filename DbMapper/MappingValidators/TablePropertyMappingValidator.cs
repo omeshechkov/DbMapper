@@ -6,7 +6,7 @@ using DbMapper.Utils;
 namespace DbMapper.MappingValidators
 {
     [CanValidate(typeof(ITablePropertyMapping))]
-    internal class TablePropertyMappingValidator : MappingValidator
+    public sealed class TablePropertyMappingValidator : MappingValidator
     {
 
         public TablePropertyMappingValidator(IMappingValidatorFactory factory)

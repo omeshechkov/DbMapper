@@ -8,7 +8,7 @@ using DbMapper.MappingValidators.Exceptions;
 namespace DbMapper.MappingValidators
 {
     [CanValidate(typeof(IVersionPropertyMapping))]
-    internal class VersionPropertyMappingValidator : MappingValidator
+    public sealed class VersionPropertyMappingValidator : MappingValidator
     {
         private static readonly IList<Type> SupportedTypes = new[]
         {
@@ -18,16 +18,7 @@ namespace DbMapper.MappingValidators
             typeof (long),
             typeof (float),
             typeof (double),
-            typeof (decimal),
-
-            typeof (bool?),
-            typeof (byte?),
-            typeof (short?),
-            typeof (int?),
-            typeof (long?),
-            typeof (float?),
-            typeof (double?),
-            typeof (decimal?)
+            typeof (decimal)
         };
 
         private static readonly string SupportedTypesString = string.Join(", ", SupportedTypes);
@@ -47,6 +38,10 @@ namespace DbMapper.MappingValidators
                 throw new ValidationException("Version property mapping validation error, mapping '{0}' is not a property mapping", mapping.GetType().AssemblyQualifiedName);
 
             var memberInfo = versionPropertyMapping.Member;
+
+            if (memberInfo == null)
+                throw new ValidationException("Version property mapping validation error, member is null");
+
             Type memberType;
 
             var fieldInfo = memberInfo as FieldInfo;
@@ -57,12 +52,6 @@ namespace DbMapper.MappingValidators
             }
             else if (propertyInfo != null)
             {
-                if (propertyInfo.CanRead)
-                    throw new ValidationException("Version property mapping validation error, no getter");
-
-                if (propertyInfo.CanWrite)
-                    throw new ValidationException("Version property mapping validation error, no setter");
-
                 memberType = propertyInfo.PropertyType;
             }
             else
@@ -71,7 +60,7 @@ namespace DbMapper.MappingValidators
             if (!SupportedTypes.Contains(memberType))
             {
                 throw new ValidationException("Version property mapping validation error, type '{0}' is not supported, supported types: [{1}]",
-                    memberType, SupportedTypesString);
+                    memberType.AssemblyQualifiedName, SupportedTypesString);
             }
         }
     }

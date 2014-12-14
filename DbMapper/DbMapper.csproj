@@ -51,6 +51,7 @@
     <Compile Include="IGenerator.cs" />
     <Compile Include="IMappingBuilder.cs" />
     <Compile Include="IMappingProvider.cs" />
+    <Compile Include="Mappings\IHasDiscriminator.cs" />
     <Compile Include="MappingValidators\DiscriminatorMappingValidator.cs" />
     <Compile Include="MappingValidators\ExtendTableMappingValidator.cs" />
     <Compile Include="MappingValidators\ExtendViewMappingStatefulValidator.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="MappingValidators\PropertyMappingValidator.cs" />
     <Compile Include="MappingValidators\SubClassJoinColumnValidator.cs" />
     <Compile Include="MappingValidators\SubClassJoinValidator.cs" />
+    <Compile Include="MappingValidators\SubClassMappingValidator.cs" />
     <Compile Include="MappingValidators\TableSubClassMappingValidator.cs" />
     <Compile Include="MappingValidators\TableMappingValidator.cs" />
     <Compile Include="MappingValidators\TablePropertyMappingValidator.cs" />

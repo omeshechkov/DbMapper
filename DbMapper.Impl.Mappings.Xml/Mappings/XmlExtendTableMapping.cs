@@ -33,21 +33,21 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
                 throw new DocumentParseException(string.Format("Cannot recognize '{0}' class at extend-table mapping", xClass.Value), ex);
             }
 
-            XmlDiscriminatorMapping discriminator = null;
-
             XElement xDiscriminator;
             if (xExtendTable.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
-                discriminator = new XmlDiscriminatorMapping(xDiscriminator);
+                Discriminator = new XmlDiscriminatorMapping(xDiscriminator);
 
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in xExtendTable.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlTableSubClassMapping(this, discriminator, xSubClass));
+                SubClasses.Add(new XmlTableSubClassMapping(this, Discriminator, xSubClass));
             }
         }
 
         public Type Type { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
+
+        public IDiscriminatorMapping Discriminator { get; private set; }
     }
 }

@@ -7,7 +7,7 @@ using DbMapper.Utils;
 
 namespace DbMapper.Impl.Mappings.Xml.Mappings
 {
-    sealed class XmlExtendViewMapping : IExtendTableMapping
+    sealed class XmlExtendViewMapping : IExtendViewMapping
     {
         internal static readonly XNamespace XNamespace = "urn:dbm-extend-view-mapping";
 
@@ -34,20 +34,20 @@ namespace DbMapper.Impl.Mappings.Xml.Mappings
             }
 
             XElement xDiscriminator;
-            if (!xExtendView.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
-                throw new DocumentParseException("Cannot find discriminator at extend-view mapping");
-
-            var discriminator = new XmlDiscriminatorMapping(xDiscriminator);
+            if (xExtendView.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
+                Discriminator = new XmlDiscriminatorMapping(xDiscriminator);
 
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in xExtendView.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlViewSubClassMapping(this, discriminator, xSubClass));
+                SubClasses.Add(new XmlViewSubClassMapping(this, Discriminator, xSubClass));
             }
         }
 
         public Type Type { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
+
+        public IDiscriminatorMapping Discriminator { get; private set; }
     }
 }

@@ -8,12 +8,13 @@ using DbMapper.Utils;
 namespace DbMapper.MappingValidators
 {
     [CanValidate(typeof(IViewMapping))]
-    internal sealed class ViewMappingValidator : MappingValidator
+    public sealed class ViewMappingValidator : MappingValidator
     {
         public ViewMappingValidator(IMappingValidatorFactory factory) : base(factory) { }
 
         public override void Validate(object mapping, object context)
         {
+            //TODO begin: Move to TableOrViewMappingValidator
             if (mapping == null)
                 throw new ValidationException("View mapping validation error, mapping is null");
 
@@ -64,6 +65,7 @@ namespace DbMapper.MappingValidators
                         }
                     }
                 }
+                //end TODO
 
                 using (var validationContext = new ValidationContext<IViewPropertyMapping>(Factory))
                 {

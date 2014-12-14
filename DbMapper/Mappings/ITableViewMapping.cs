@@ -1,9 +1,7 @@
 namespace DbMapper.Mappings
 {
-    public interface ITableViewMapping : IDbMapping, IMutableMapping, IHasProperties
+    public interface ITableViewMapping : IDbMapping, IMutableMapping, IHasProperties, IHasDiscriminator
     {
-        IDiscriminatorMapping Discriminator { get; }
-
         object DiscriminatorValue { get; }
     }
 }

@@ -7,11 +7,10 @@ using DbMapper.MappingValidators.Exceptions;
 namespace DbMapper.MappingValidators
 {
     [CanValidate(typeof(IDiscriminatorMapping))]
-    internal class DiscriminatorMappingValidator : MappingValidator
+    public sealed class DiscriminatorMappingValidator : MappingValidator
     {
         private static readonly IList<Type> SupportedTypes = new[]
         {
-            typeof (bool),
             typeof (string),
             typeof (Type),
             typeof (byte),
@@ -21,17 +20,7 @@ namespace DbMapper.MappingValidators
             typeof (float),
             typeof (double),
             typeof (decimal),
-            typeof (Guid),
-
-            typeof (bool?),
-            typeof (byte?),
-            typeof (short?),
-            typeof (int?),
-            typeof (long?),
-            typeof (float?),
-            typeof (double?),
-            typeof (decimal?),
-            typeof (Guid?)
+            typeof (Guid)
         };
 
         private static readonly string SupportedTypesString = string.Join(", ", SupportedTypes);
@@ -54,11 +43,12 @@ namespace DbMapper.MappingValidators
                 throw new ValidationException("Discriminator mapping validation error, column is null or empty");
 
             if (discriminatorColumnMapping.Type == null)
-                throw new ValidationException("Discriminator mapping validation error, type is null or empty");
+                throw new ValidationException("Discriminator mapping validation error, type is null");
 
             if (!SupportedTypes.Contains(discriminatorColumnMapping.Type))
             {
-                throw new ValidationException("Discriminator mapping validation error, type '{0}' is not supported, supported types: [{1}]", discriminatorColumnMapping.Type, SupportedTypesString);
+                throw new ValidationException("Discriminator mapping validation error, type '{0}' is not supported, supported types: [{1}]", 
+                    discriminatorColumnMapping.Type.AssemblyQualifiedName, SupportedTypesString);
             }
         }
     }
