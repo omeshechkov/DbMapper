@@ -2,7 +2,7 @@
 
 namespace DbMapper.Mappings
 {
-    public interface IMutableMapping : IMappingClassReference
+    public interface IMutableMapping : IMappingClassReference, IHasDiscriminatorValue
     {
         IList<ISubClassMapping> SubClasses { get; }
     }

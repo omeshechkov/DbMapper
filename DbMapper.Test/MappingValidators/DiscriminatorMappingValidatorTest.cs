@@ -1,4 +1,5 @@
-﻿using DbMapper.Factories;
+﻿using System;
+using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators;
 using DbMapper.MappingValidators.Exceptions;
@@ -16,8 +17,7 @@ namespace DbMapper.Test.MappingValidators
             var factoryMock = new Mock<IMappingValidatorFactory>();
 
             var discriminatorMappingValidator = new DiscriminatorMappingValidator(factoryMock.Object);
-            var ex = Assert.Throws<ValidationException>(() => discriminatorMappingValidator.Validate(null, null));
-            Assert.AreEqual("Discriminator mapping validation error, mapping is null", ex.Message);
+            Assert.Throws<ArgumentNullException>(() => discriminatorMappingValidator.Validate(null, null));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace DbMapper.Test.MappingValidators
             var factoryMock = new Mock<IMappingValidatorFactory>();
             var mappingMock = new Mock<IDiscriminatorMapping>();
             mappingMock.Setup(m => m.Column).Returns("type");
-            mappingMock.Setup(m => m.Type).Returns(typeof(long?));
+            mappingMock.Setup(m => m.Type).Returns(typeof(long));
             
             var discriminatorMappingValidator = new DiscriminatorMappingValidator(factoryMock.Object);
             discriminatorMappingValidator.Validate(mappingMock.Object, null);

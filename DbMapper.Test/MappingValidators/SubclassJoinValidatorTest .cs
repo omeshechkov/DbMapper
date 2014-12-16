@@ -1,3 +1,4 @@
+using System;
 using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators;
@@ -16,8 +17,7 @@ namespace DbMapper.Test.MappingValidators
             var factoryMock = new Mock<IMappingValidatorFactory>();
 
             var joinValidator = new SubClassJoinValidator(factoryMock.Object);
-            var ex = Assert.Throws<ValidationException>(() => joinValidator.Validate(null, null));
-            Assert.AreEqual("Subclass join validation error, mapping is null", ex.Message);
+            Assert.Throws<ArgumentNullException>(() => joinValidator.Validate(null, null));
         }
 
         [Test]

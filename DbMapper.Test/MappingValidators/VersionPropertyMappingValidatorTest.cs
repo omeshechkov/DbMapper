@@ -1,10 +1,10 @@
+using System;
 using System.Linq;
 using System.Reflection;
 using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators;
 using DbMapper.MappingValidators.Exceptions;
-using DbMapper.Test.MappingValidators.Model;
 using Moq;
 using NUnit.Framework;
 
@@ -13,14 +13,25 @@ namespace DbMapper.Test.MappingValidators
     [TestFixture]
     public class VersionVersionPropertyMappingValidatorTest
     {
+        class Entity
+        {
+            public int GetValue()
+            {
+                return 0;
+            }
+
+            public long Id { get; set; }
+
+            public object Value { get; set; }
+        }
+
         [Test]
         public void NullMapping()
         {
             var factoryMock = new Mock<IMappingValidatorFactory>();
 
             var versionVersionPropertyMappingValidator = new VersionPropertyMappingValidator(factoryMock.Object);
-            var ex = Assert.Throws<ValidationException>(() => versionVersionPropertyMappingValidator.Validate(null, null));
-            Assert.AreEqual("Version property mapping validation error, mapping is null", ex.Message);
+            Assert.Throws<ArgumentNullException>(() => versionVersionPropertyMappingValidator.Validate(null, null));
         }
 
         [Test]
@@ -48,7 +59,7 @@ namespace DbMapper.Test.MappingValidators
         [Test]
         public void NotAPropertyOrField()
         {
-            var methodInfo = typeof(Model.Entity).GetMember("GetValue", BindingFlags.Public | BindingFlags.Instance).First();
+            var methodInfo = typeof(Entity).GetMember("GetValue", BindingFlags.Public | BindingFlags.Instance).First();
 
             var factoryMock = new Mock<IMappingValidatorFactory>();
             var mappingMock = new Mock<IVersionPropertyMapping>();
@@ -62,7 +73,7 @@ namespace DbMapper.Test.MappingValidators
         [Test]
         public void UnsupportedType()
         {
-            var propertyInfo = typeof(Model.Entity).GetMember("Value", BindingFlags.Public | BindingFlags.Instance).First();
+            var propertyInfo = typeof(Entity).GetMember("Value", BindingFlags.Public | BindingFlags.Instance).First();
 
             var factoryMock = new Mock<IMappingValidatorFactory>();
             var mappingMock = new Mock<IVersionPropertyMapping>();
@@ -79,7 +90,7 @@ namespace DbMapper.Test.MappingValidators
         [Test]
         public void CorrectMapping()
         {
-            var propertyInfo = typeof(Model.Entity).GetMember("Id", BindingFlags.Public | BindingFlags.Instance).First();
+            var propertyInfo = typeof(Entity).GetMember("Id", BindingFlags.Public | BindingFlags.Instance).First();
 
             var factoryMock = new Mock<IMappingValidatorFactory>();
             var mappingMock = new Mock<IVersionPropertyMapping>();

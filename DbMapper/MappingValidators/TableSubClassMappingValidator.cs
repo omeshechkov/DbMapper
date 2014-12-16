@@ -15,7 +15,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Table subclass mapping validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var subClassMapping = mapping as ITableSubClassMapping;
             if (subClassMapping == null)

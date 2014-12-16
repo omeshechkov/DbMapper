@@ -1,3 +1,4 @@
+using System;
 using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators.Exceptions;
@@ -13,7 +14,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Subclass join validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var subClassJoin = mapping as ISubClassJoin;
             if (subClassJoin == null)

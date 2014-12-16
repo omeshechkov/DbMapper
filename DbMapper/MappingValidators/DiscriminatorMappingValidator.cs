@@ -33,7 +33,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Discriminator mapping validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var discriminatorColumnMapping = mapping as IDiscriminatorMapping;
             if (discriminatorColumnMapping == null)

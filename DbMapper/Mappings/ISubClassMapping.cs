@@ -6,8 +6,6 @@ namespace DbMapper.Mappings
     {
         IMappingClassReference Parent { get; }
 
-        object DiscriminatorValue { get; }
-
         ISubClassJoin Join { get; }
     }
 

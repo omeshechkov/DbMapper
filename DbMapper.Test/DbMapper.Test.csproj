@@ -68,11 +68,15 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="MappingValidators\DbMappingTest.cs" />
     <Compile Include="MappingValidators\DiscriminatorMappingValidatorTest.cs" />
-    <Compile Include="MappingValidators\Model\Entity.cs" />
+    <Compile Include="MappingValidators\MappingValidatorFactoryStub.cs" />
+    <Compile Include="MappingValidators\MutableMappingValidatorTest.cs" />
     <Compile Include="MappingValidators\SubclassJoinColumnValidatorTest.cs" />
     <Compile Include="MappingValidators\SubclassJoinValidatorTest .cs" />
-    <Compile Include="MappingValidators\SubclassMappingValidatorTest.cs" />
+    <Compile Include="MappingValidators\ClassReferenceMappingTest.cs" />
+    <Compile Include="MappingValidators\TableViewMappingValidatorTest.cs" />
+    <Compile Include="MappingValidators\SubClassMappingValidatorTest.cs" />
     <Compile Include="MappingValidators\VersionPropertyMappingValidatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MappingValidators\PropertyMappingValidatorTest.cs" />

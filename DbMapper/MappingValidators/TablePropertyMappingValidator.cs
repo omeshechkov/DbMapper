@@ -1,4 +1,5 @@
-﻿using DbMapper.Factories;
+﻿using System;
+using DbMapper.Factories;
 using DbMapper.Mappings;
 using DbMapper.MappingValidators.Exceptions;
 using DbMapper.Utils;
@@ -17,7 +18,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Table property mapping validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var tablePropertyMapping = mapping as ITablePropertyMapping;
             if (tablePropertyMapping == null)

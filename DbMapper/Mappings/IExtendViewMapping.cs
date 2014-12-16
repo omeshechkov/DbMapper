@@ -1,4 +1,9 @@
-﻿namespace DbMapper.Mappings
+﻿using System.Collections.Generic;
+
+namespace DbMapper.Mappings
 {
-    public interface IExtendViewMapping : IMutableMapping, IHasDiscriminator { }
+    public interface IExtendViewMapping : IMappingClassReference, IHasDiscriminator
+    {
+        IList<ISubClassMapping> SubClasses { get; }
+    }
 }

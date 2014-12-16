@@ -21,7 +21,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Extend view validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var viewMapping = mapping as IViewMapping;
             var extendViewMapping = mapping as IExtendViewMapping;
@@ -32,7 +32,7 @@ namespace DbMapper.MappingValidators
             if (viewMapping != null)
             {
                 if (_registeredTypes.Contains(viewMapping.Type))
-                    throw new ValidationException("Cannot register mapping of view-type, duplicate mapping for '{0}' type", viewMapping.Type.AssemblyQualifiedName);
+                    throw new ValidationException("Cannot register view mapping, duplicate mapping for '{0}' type", viewMapping.Type.AssemblyQualifiedName);
 
                 _registeredTypes.Add(viewMapping.Type);
                 RegisterMapping(viewMapping);
@@ -41,8 +41,11 @@ namespace DbMapper.MappingValidators
             if (extendViewMapping != null)
             {
                 _extendTypes.Add(extendViewMapping.Type);
-                RegisterMapping(extendViewMapping);
-            } 
+                foreach (var subclassMapping in extendViewMapping.SubClasses)
+                {
+                    RegisterMapping(subclassMapping);
+                }
+            }
         }
 
         public void BeginValidate()
@@ -63,11 +66,13 @@ namespace DbMapper.MappingValidators
 
         private void RegisterMapping(IMutableMapping mapping)
         {
-            if (_registeredTypes.Contains(mapping.Type))
-                throw new ValidationException("Cannot register view/extend-view subclass mapping, duplicate mapping for '{0}' type", mapping.Type.AssemblyQualifiedName);
-
             foreach (var subClassMapping in mapping.SubClasses)
             {
+                if (_registeredTypes.Contains(subClassMapping.Type))
+                    throw new ValidationException("Cannot register subclass mapping, duplicate mapping for '{0}' type", subClassMapping.Type.AssemblyQualifiedName);
+
+                _registeredTypes.Add(subClassMapping.Type);
+
                 RegisterMapping(subClassMapping);
             }
         }

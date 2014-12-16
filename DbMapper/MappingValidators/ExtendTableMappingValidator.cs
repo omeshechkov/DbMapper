@@ -17,7 +17,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Extend table mapping validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var extendTableMapping = mapping as IExtendTableMapping;
             if (extendTableMapping == null)

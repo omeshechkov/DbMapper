@@ -14,14 +14,11 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Subclass mapping validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var subClassMapping = mapping as ISubClassMapping;
             if (subClassMapping == null)
                 throw new ValidationException("Subclass mapping validation error, mapping '{0}' is not a subclass mapping", mapping.GetType().AssemblyQualifiedName);
-
-            if (subClassMapping.Type == null)
-                throw new ValidationException("Subclass mapping validation error, type is null");
 
             var parent = subClassMapping.Parent;
             if (parent == null)
@@ -31,46 +28,9 @@ namespace DbMapper.MappingValidators
                 throw new ValidationException("Subclass mapping '{0}' validation error, class '{0}' is not inherited from '{1}'",
                     subClassMapping.Type.AssemblyQualifiedName, parent.Type.AssemblyQualifiedName);
 
-            if (context == null)
-                throw new ValidationException("Subclass mapping '{0}' validation error, context is null",
-                    subClassMapping.Type.AssemblyQualifiedName);
-
-            var discriminatorContainer = context as IHasDiscriminator;
-
-            if (discriminatorContainer == null)
-                throw new ValidationException("Subclass mapping '{0}' validation error, context of type '{1}' doesn't contain discriminator column",
-                    subClassMapping.Type.AssemblyQualifiedName, context.GetType().AssemblyQualifiedName);
-
-            var discriminator = discriminatorContainer.Discriminator;
-            if (discriminator != null)
+            if (subClassMapping.DiscriminatorValue == null && subClassMapping.Join == null)
             {
-                if (subClassMapping.Type.IsAbstract)
-                {
-                    if (subClassMapping.DiscriminatorValue != null)
-                    {
-                        throw new ValidationException("Subclass mapping '{0}' validation error, abstract class cannot have discriminator-value",
-                            subClassMapping.Type.AssemblyQualifiedName);
-                    }
-                }
-                else
-                {
-                    if (subClassMapping.DiscriminatorValue == null)
-                    {
-                        throw new ValidationException("Subclass mapping '{0}' validation error, non abstact class with discriminator column should have discriminator-value",
-                            subClassMapping.Type.AssemblyQualifiedName);
-                    }
-
-                    if (subClassMapping.DiscriminatorValue.GetType() != discriminator.Type)
-                    {
-                        throw new ValidationException(
-                            "Subclass mapping '{0}' validation error, discriminator value type is not match discriminator column type, expected: '{1}', actual: '{2}'",
-                            subClassMapping.Type.AssemblyQualifiedName, discriminator.Type.AssemblyQualifiedName, subClassMapping.DiscriminatorValue.GetType().AssemblyQualifiedName);
-                    }
-                }
-            }
-            else if (subClassMapping.Join == null)
-            {
-                throw new ValidationException("Subclass mapping '{0}' validation error, subclass without discriminator has to have join",
+                throw new ValidationException("Subclass mapping '{0}' validation error, subclass has to have discriminator or join at least",
                     subClassMapping.Type.AssemblyQualifiedName);
             }
 

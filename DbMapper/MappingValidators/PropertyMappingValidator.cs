@@ -47,7 +47,7 @@ namespace DbMapper.MappingValidators
         public override void Validate(object mapping, object context)
         {
             if (mapping == null)
-                throw new ValidationException("Property mapping validation error, mapping is null");
+                throw new ArgumentNullException("mapping");
 
             var propertyMapping = mapping as IPropertyMapping;
             if (propertyMapping == null)

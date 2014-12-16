@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Xml.Linq;
 using DbMapper.Impl.Mappings.Xml.Exceptions;
 using DbMapper.Impl.Mappings.Xml.Factories;
-using DbMapper.Impl.Mappings.Xml.Utils;
 using DbMapper.Mappings;
 using DbMapper.Oracle.Mappings;
 using DbMapper.Utils;
